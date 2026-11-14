@@ -3,687 +3,886 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interactive HTML Problem-Solving Quiz (Up to Links & Images)</title>
+  <title>HTML-101 </title>
   <style>
+    :root {
+      --bg: #050507;
+      --paper: #0b0b0f;
+      --panel: #111117;
+      --line: #23232e;
+      --line-strong: #3a3a4a;
+      --text: #f4f4f6;
+      --muted: #8e8ea0;
+      --neon-lime: #ccff00;
+      --neon-cyan: #00f0ff;
+      --neon-red: #ff2a5f;
+      --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Consolas, monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      border-radius: 0 !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #1e293b;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .quiz-container {
-      background: #ffffff;
-      width: 100%;
-      max-width: 740px;
-      border-radius: 16px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
-      overflow: hidden;
-    }
-
-    .quiz-header {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      color: #ffffff;
-      padding: 22px 28px;
-    }
-
-    .quiz-header h1 {
-      font-size: 1.45rem;
-      margin-bottom: 4px;
-    }
-
-    .quiz-header p {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-
-    .progress-bar-wrap {
-      background: rgba(255, 255, 255, 0.25);
-      height: 8px;
-      border-radius: 999px;
-      margin-top: 14px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      background: #fde047;
-      height: 100%;
-      width: 5%;
-      transition: width 0.3s ease;
-    }
-
-    .status-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      margin-top: 8px;
-      font-weight: 600;
-    }
-
-    .quiz-body {
-      padding: 28px;
-    }
-
-    .badge-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .topic-badge {
-      display: inline-block;
-      background: #dbeafe;
-      color: #1d4ed8;
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .type-badge {
-      display: inline-block;
-      background: #fef3c7;
-      color: #b45309;
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .question-text {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 16px;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
       line-height: 1.5;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .code-snippet {
-      background: #0f172a;
-      color: #e2e8f0;
-      padding: 14px 16px;
-      border-radius: 10px;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 18px;
-      overflow-x: auto;
-      border: 1px solid #334155;
-      white-space: pre-wrap;
+    /* TOP STICKY TELEMETRY BAR */
+    .telemetry-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 5, 7, 0.94);
+      backdrop-filter: blur(6px);
+      border-bottom: 2px solid var(--neon-lime);
     }
 
-    .inline-code-editor {
-      background: #0f172a;
-      color: #38bdf8;
-      padding: 18px;
-      border-radius: 10px;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-      font-size: 1.05rem;
-      margin-bottom: 16px;
+    .telemetry-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       flex-wrap: wrap;
-      gap: 4px;
-      border: 2px solid #334155;
+      font-family: var(--mono);
+      font-size: 0.8rem;
     }
 
-    .code-input {
-      background: #1e293b;
-      color: #fde047;
-      border: 2px solid #60a5fa;
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-      font-size: 1rem;
-      font-weight: 700;
-      width: 130px;
-      outline: none;
+    .telemetry-id {
+      font-weight: 800;
+      color: var(--neon-lime);
+      letter-spacing: 0.06em;
     }
 
-    .code-input:focus {
-      border-color: #fde047;
-      box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.25);
-    }
-
-    .code-input.correct-input {
-      border-color: #22c55e;
-      background: #14532d;
-      color: #bbf7d0;
-    }
-
-    .code-input.wrong-input {
-      border-color: #ef4444;
-      background: #7f1d1d;
-      color: #fecaca;
-    }
-
-    .builder-assembly {
-      min-height: 54px;
-      background: #0f172a;
-      border: 2px dashed #475569;
-      border-radius: 10px;
-      padding: 12px 14px;
+    .telemetry-metrics {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
-      font-family: Consolas, Monaco, monospace;
-      color: #94a3b8;
-    }
-
-    .builder-tokens {
-      display: flex;
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
     }
 
-    .token-chip {
-      background: #eff6ff;
-      color: #1e40af;
-      border: 2px solid #93c5fd;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-family: Consolas, Monaco, monospace;
-      font-size: 0.95rem;
+    .metric-item {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .metric-item span {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .metric-item.score span {
+      color: var(--neon-lime);
+    }
+
+    .reset-link-btn {
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      font-family: var(--mono);
+      font-size: 0.76rem;
       font-weight: 700;
+      padding: 5px 10px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      text-transform: uppercase;
+      transition: background 0.12s ease, color 0.12s ease;
     }
 
-    .token-chip:hover:not(:disabled) {
-      background: #2563eb;
+    .reset-link-btn:hover {
+      background: var(--neon-cyan);
+      color: #000;
+    }
+
+    .progress-hairline {
+      width: 100%;
+      height: 3px;
+      background: var(--line);
+    }
+
+    .progress-hairline-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--neon-lime);
+      transition: width 0.25s ease;
+    }
+
+    /* MAIN BRUTALIST FORM SHEET */
+    .form-sheet {
+      max-width: 860px;
+      margin: 32px auto 0;
+      padding: 0 20px;
+    }
+
+    .form-container {
+      background: var(--paper);
+      border: 2px solid var(--line-strong);
+      box-shadow: 6px 6px 0px var(--neon-lime);
+    }
+
+    /* FORM HEADER BLOCK */
+    .form-header {
+      padding: 28px 28px 24px;
+      border-bottom: 2px solid var(--line-strong);
+    }
+
+    .form-kicker {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .form-title {
+      font-family: var(--mono);
+      font-size: clamp(1.35rem, 3vw, 1.85rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
       color: #ffffff;
-      border-color: #2563eb;
-    }
-
-    .token-chip:disabled {
-      opacity: 0.35;
-      cursor: default;
-    }
-
-    .assembled-chip {
-      background: #1e293b;
-      color: #fde047;
-      border: 1px solid #64748b;
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-family: Consolas, Monaco, monospace;
-      font-size: 0.95rem;
-      cursor: pointer;
-    }
-
-    .action-row {
-      display: flex;
-      gap: 10px;
       margin-bottom: 10px;
     }
 
-    .secondary-btn {
-      background: #e2e8f0;
-      color: #334155;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 18px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
+    .form-subtitle {
+      font-size: 0.94rem;
+      color: var(--muted);
+      max-width: 64ch;
+      margin-bottom: 20px;
     }
 
-    .secondary-btn:hover:not(:disabled) {
-      background: #cbd5e1;
+    .form-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
+      font-family: var(--mono);
+      font-size: 0.78rem;
     }
 
-    .secondary-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    @media (max-width: 640px) {
+      .form-meta-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-header,
+      .form-field,
+      .form-footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
     }
 
-    code.inline {
-      background: #f1f5f9;
-      color: #be123c;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: Consolas, Monaco, monospace;
-      font-size: 0.92em;
+    .meta-cell {
+      padding: 10px 12px;
+      border-right: 1px solid var(--line-strong);
     }
 
-    .options-list {
+    .meta-cell:last-child {
+      border-right: none;
+    }
+
+    @media (max-width: 640px) {
+      .meta-cell {
+        border-right: none;
+        border-bottom: 1px solid var(--line-strong);
+      }
+      .meta-cell:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .meta-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.68rem;
+      margin-bottom: 2px;
+    }
+
+    .meta-val {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .meta-val.neon {
+      color: var(--neon-lime);
+    }
+
+    /* INDIVIDUAL FORM QUESTION ROW */
+    .form-field {
+      padding: 26px 28px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      transition: background 0.15s ease;
+    }
+
+    .form-field:last-child {
+      border-bottom: none;
+    }
+
+    .form-field.locked-pass {
+      border-left: 4px solid var(--neon-lime);
+      background: rgba(204, 255, 0, 0.02);
+    }
+
+    .form-field.locked-fail {
+      border-left: 4px solid var(--neon-red);
+      background: rgba(255, 42, 95, 0.025);
+    }
+
+    .field-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      font-family: var(--mono);
+      font-size: 0.76rem;
+    }
+
+    .field-tags {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .field-index {
+      color: var(--neon-lime);
+      font-weight: 800;
+    }
+
+    .field-topic {
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .field-status {
+      font-weight: 700;
+      padding: 2px 7px;
+      border: 1px solid var(--line-strong);
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .field-status.status-pass {
+      border-color: var(--neon-lime);
+      color: var(--neon-lime);
+    }
+
+    .field-status.status-fail {
+      border-color: var(--neon-red);
+      color: var(--neon-red);
+    }
+
+    .field-prompt {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 16px;
+      line-height: 1.55;
+    }
+
+    .code-block {
+      background: #060609;
+      border: 1px solid var(--line-strong);
+      border-left: 3px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      font-family: var(--mono);
+      font-size: 0.86rem;
+      line-height: 1.6;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    /* FORM RADIO OPTIONS */
+    .radio-group {
       display: flex;
       flex-direction: column;
-      gap: 11px;
+      gap: 8px;
     }
 
-    .option-btn {
+    .radio-option {
       width: 100%;
       text-align: left;
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 13px 16px;
-      font-size: 0.98rem;
-      color: #1e293b;
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      color: var(--text);
+      padding: 11px 14px;
+      font-family: var(--sans);
+      font-size: 0.93rem;
       cursor: pointer;
-      transition: all 0.18s ease;
       display: flex;
       align-items: center;
       gap: 12px;
+      transition: border-color 0.1s ease, background 0.1s ease;
     }
 
-    .option-btn:hover:not(:disabled) {
-      border-color: #2563eb;
-      background: #eff6ff;
+    .radio-option:hover:not(:disabled) {
+      border-color: var(--neon-lime);
+      background: #15151d;
     }
 
-    .option-btn:disabled {
-      cursor: default;
-    }
-
-    .option-btn.correct {
-      background: #dcfce7;
-      border-color: #16a34a;
-      color: #14532d;
-      font-weight: 600;
-    }
-
-    .option-btn.wrong {
-      background: #fee2e2;
-      border-color: #dc2626;
-      color: #7f1d1d;
-    }
-
-    .option-letter {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #e2e8f0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-
-    .option-btn.correct .option-letter {
-      background: #16a34a;
-      color: #ffffff;
-    }
-
-    .option-btn.wrong .option-letter {
-      background: #dc2626;
-      color: #ffffff;
-    }
-
-    .option-code {
-      font-family: Consolas, Monaco, monospace;
-      font-size: 0.93rem;
-    }
-
-    .feedback-box {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 10px;
-      font-size: 0.94rem;
-      line-height: 1.5;
-      display: none;
-    }
-
-    .feedback-box.show {
-      display: block;
-    }
-
-    .feedback-box.correct-fb {
-      background: #f0fdf4;
-      border-left: 4px solid #16a34a;
-      color: #166534;
-    }
-
-    .feedback-box.wrong-fb {
-      background: #fef2f2;
-      border-left: 4px solid #dc2626;
-      color: #991b1b;
-    }
-
-    .browser-preview {
-      margin-top: 10px;
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      overflow: hidden;
-      color: #0f172a;
-    }
-
-    .browser-bar {
-      background: #e2e8f0;
-      padding: 5px 10px;
-      font-size: 0.75rem;
-      color: #475569;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #94a3b8;
-      display: inline-block;
-    }
-
-    .browser-content {
-      padding: 10px 14px;
-      font-size: 0.92rem;
-    }
-
-    .quiz-footer {
-      margin-top: 22px;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .primary-btn {
-      background: #2563eb;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      padding: 11px 22px;
-      font-size: 0.98rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .primary-btn:hover:not(:disabled) {
-      background: #1d4ed8;
-    }
-
-    .primary-btn:disabled {
-      background: #94a3b8;
+    .radio-option:disabled {
       cursor: not-allowed;
     }
 
-    .result-screen {
-      text-align: center;
-      padding: 8px 0;
+    .radio-box {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+      flex-shrink: 0;
     }
 
-    .score-circle {
-      width: 128px;
-      height: 128px;
-      border-radius: 50%;
-      background: #eff6ff;
-      border: 6px solid #2563eb;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto 18px;
+    .radio-option:hover:not(:disabled) .radio-box {
+      color: var(--neon-lime);
     }
 
-    .score-circle .score-num {
-      font-size: 1.95rem;
-      font-weight: 800;
-      color: #1d4ed8;
+    .option-code {
+      font-family: var(--mono);
+      font-size: 0.86rem;
     }
 
-    .score-circle .score-total {
-      font-size: 0.9rem;
-      color: #475569;
+    .radio-option.opt-pass {
+      border-color: var(--neon-lime);
+      background: rgba(204, 255, 0, 0.1);
+      color: #ffffff;
       font-weight: 600;
     }
 
-    .result-title {
-      font-size: 1.45rem;
-      margin-bottom: 6px;
+    .radio-option.opt-pass .radio-box {
+      color: var(--neon-lime);
     }
 
-    .result-msg {
-      color: #475569;
-      margin-bottom: 20px;
-      font-size: 0.98rem;
+    .radio-option.opt-fail {
+      border-color: var(--neon-red);
+      background: rgba(255, 42, 95, 0.12);
+      color: #ffffff;
     }
 
-    .review-list {
-      text-align: left;
-      margin-top: 22px;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 18px;
-      max-height: 320px;
-      overflow-y: auto;
+    .radio-option.opt-fail .radio-box {
+      color: var(--neon-red);
     }
 
-    .review-item {
-      padding: 10px 12px;
-      border-radius: 8px;
+    .radio-option.opt-muted {
+      opacity: 0.4;
+    }
+
+    /* FORM TEXT INPUT */
+    .input-line {
+      background: #060609;
+      border: 1px solid var(--line-strong);
+      padding: 12px 14px;
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      color: var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .minimal-input {
+      background: var(--panel);
+      border: none;
+      border-bottom: 2px solid var(--neon-lime);
+      color: var(--neon-lime);
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      width: 120px;
+      outline: none;
+    }
+
+    .minimal-input:focus {
+      background: #171720;
+    }
+
+    .minimal-input:disabled {
+      cursor: not-allowed;
+    }
+
+    .minimal-input.inp-pass {
+      border-bottom-color: var(--neon-lime);
+      color: var(--neon-lime);
+    }
+
+    .minimal-input.inp-fail {
+      border-bottom-color: var(--neon-red);
+      color: var(--neon-red);
+    }
+
+    /* FORM SEQUENCE BUILDER */
+    .seq-display {
+      min-height: 44px;
+      background: #060609;
+      border: 1px dashed var(--line-strong);
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 10px;
+      font-family: var(--mono);
+    }
+
+    .seq-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .seq-token {
+      background: rgba(204, 255, 0, 0.14);
+      border: 1px solid var(--neon-lime);
+      color: var(--neon-lime);
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 3px 8px;
+    }
+
+    .token-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .token-btn {
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      color: var(--neon-cyan);
+      font-family: var(--mono);
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    .token-btn:hover:not(:disabled) {
+      border-color: var(--neon-cyan);
+      background: #16161f;
+    }
+
+    .token-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lock-submit-btn {
+      background: var(--neon-lime);
+      color: #000000;
+      border: 1px solid var(--neon-lime);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 7px 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .lock-submit-btn:hover:not(:disabled) {
+      background: #d9ff33;
+    }
+
+    .lock-submit-btn:disabled {
+      background: transparent;
+      border-color: var(--line-strong);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .clear-seq-btn {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--line-strong);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      padding: 7px 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .clear-seq-btn:hover:not(:disabled) {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    .clear-seq-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* INLINE DIAGNOSTIC NOTE */
+    .field-note {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-left: 2px solid var(--line-strong);
+      background: #08080c;
+      font-size: 0.86rem;
+      color: #d4d4dc;
+      display: none;
+    }
+
+    .field-note.show {
+      display: block;
+    }
+
+    .field-note.note-pass {
+      border-left-color: var(--neon-lime);
+    }
+
+    .field-note.note-fail {
+      border-left-color: var(--neon-red);
+    }
+
+    .field-note strong {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+    }
+
+    .field-note.note-pass strong {
+      color: var(--neon-lime);
+    }
+
+    .field-note.note-fail strong {
+      color: var(--neon-red);
+    }
+
+    .rendered-strip {
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: #ffffff;
+      color: #09090b;
+      border: 1px solid var(--line-strong);
+      font-size: 0.86rem;
+    }
+
+    .rendered-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #52525b;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    /* FORM SUBMISSION FOOTER RECEIPT */
+    .form-footer {
+      padding: 28px;
+      border-top: 2px solid var(--line-strong);
+      background: #08080b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .receipt-heading {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--neon-lime);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .receipt-sub {
       font-size: 0.88rem;
-      background: #f8fafc;
-      border-left: 4px solid #cbd5e1;
+      color: var(--muted);
     }
 
-    .review-item.ok {
-      border-left-color: #16a34a;
+    .receipt-score {
+      font-family: var(--mono);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #000;
+      background: var(--neon-lime);
+      padding: 10px 18px;
+      border: 1px solid var(--neon-lime);
     }
 
-    .review-item.bad {
-      border-left-color: #dc2626;
+    .jump-btn {
+      margin-top: 10px;
+      background: transparent;
+      color: var(--neon-red);
+      border: 1px solid var(--neon-red);
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .jump-btn:hover {
+      background: var(--neon-red);
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <div class="quiz-header">
-      <h1>Interactive HTML Tag Problem Lab</h1>
-      <p>20 Easy Hands-On Challenges &bull; Structure, Text, Lists, Links &amp; Images</p>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="progressBar"></div>
-      </div>
-      <div class="status-row">
-        <span id="questionCounter">Challenge 1 of 20</span>
-        <span id="scoreCounter">Score: 0</span>
+
+  <!-- MINIMAL STICKY TELEMETRY -->
+  <div class="telemetry-bar">
+    <div class="telemetry-inner">
+      <div class="telemetry-id">FORM // HTML-101</div>
+      <div class="telemetry-metrics">
+        <div class="metric-item">LOCKED: <span id="statLocked">0/20</span></div>
+        <div class="metric-item score">SCORE: <span id="statScore">0/20</span></div>
+        <button type="button" class="reset-link-btn" id="resetFormBtn">RESET FORM</button>
       </div>
     </div>
-
-    <div class="quiz-body" id="quizBody"></div>
+    <div class="progress-hairline">
+      <div class="progress-hairline-fill" id="progressFill"></div>
+    </div>
   </div>
 
+  <!-- SINGLE-PAGE BRUTALIST MINIMAL FORM -->
+  <main class="form-sheet">
+    <form class="form-container" id="quizForm" onsubmit="return false;">
+      <header class="form-header">
+        <div class="form-kicker">[ DIAGNOSTIC ASSESSMENT // SINGLE-PAGE SHEET ]</div>
+        <h1 class="form-title">BASIC HTML TAGS — UP TO LINKS &amp; IMAGES</h1>
+        <p class="form-subtitle">
+          Complete all 20 problem-based fields below on this single page. Each response locks permanently upon selection or submission—no edits permitted once locked.
+        </p>
+        <div class="form-meta-grid">
+          <div class="meta-cell">
+            <span class="meta-label">SCOPE</span>
+            <span class="meta-val">STRUCTURE &rarr; &lt;A&gt; &amp; &lt;IMG&gt;</span>
+          </div>
+          <div class="meta-cell">
+            <span class="meta-label">DIFFICULTY / ITEMS</span>
+            <span class="meta-val">EASY // 20 FIELDS</span>
+          </div>
+          <div class="meta-cell">
+            <span class="meta-label">EDIT POLICY</span>
+            <span class="meta-val neon">STRICT SINGLE-LOCK</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- 20 FORM FIELDS RENDERED HERE -->
+      <div id="formFieldsContainer"></div>
+
+      <!-- FORM RECEIPT FOOTER -->
+      <footer class="form-footer">
+        <div>
+          <div class="receipt-heading" id="receiptHeading">STATUS: 0 OF 20 FIELDS LOCKED</div>
+          <div class="receipt-sub" id="receiptSub">Submit every field above to finalize your diagnostic score.</div>
+          <div id="jumpContainer"></div>
+        </div>
+        <div class="receipt-score" id="receiptScore">0 / 20 (0%)</div>
+      </footer>
+    </form>
+  </main>
+
   <script>
-    const quizData = [
+    const questions = [
       {
-        type: "mcq",
+        id: 1,
+        type: "radio",
         topic: "Document Structure",
-        badge: "Scenario Fix",
-        question: "Maya wrote <h1>My Portfolio</h1> inside <body>, so it appears on the page, but the browser tab still says 'index.html'. Where should she add <title>My Portfolio</title> to fix the tab?",
+        prompt: "Maya put <h1>My Portfolio</h1> inside <body>, so it appears on the page, but the browser tab still says 'index.html'. Where should she add <title>My Portfolio</title>?",
         options: [
           { text: "Inside the <head> section", correct: true },
-          { text: "Inside <body> right above <h1>", correct: false },
-          { text: "Before the <!DOCTYPE html> line", correct: false },
-          { text: "Inside the <h1> tag itself", correct: false }
+          { text: "Inside <body> directly above <h1>", correct: false },
+          { text: "Before the <!DOCTYPE html> declaration", correct: false },
+          { text: "Nested inside the <h1> tag", correct: false }
         ],
-        explanation: "The <title> element belongs inside <head>—it sets the browser tab label rather than page text.",
-        previewTitle: "My Portfolio",
-        previewHTML: "<span style='color:#64748b;font-size:0.85rem;'>Tab title updates to <strong>My Portfolio</strong>!</span>"
+        explanation: "<title> belongs inside <head>; it sets the browser tab label rather than page content.",
+        previewHTML: "Browser tab title set to <strong>My Portfolio</strong>."
       },
       {
-        type: "fill",
+        id: 2,
+        type: "input",
         topic: "Document Structure",
-        badge: "Complete the Code",
-        question: "Line 1 of an HTML5 file tells the browser which version of HTML you are using. Type the missing word to complete the declaration:",
+        prompt: "Line 1 of an HTML5 file declares the document type for the browser. Enter the missing keyword:",
         prefix: "<!",
         suffix: " html>",
-        placeholder: "word",
+        placeholder: "keyword",
         accepted: ["doctype", "<!doctype html>"],
         displayAnswer: "DOCTYPE",
-        explanation: "<!DOCTYPE html> is required at the very top of every modern HTML5 document."
+        explanation: "<!DOCTYPE html> goes at the very top of the file so browsers render in HTML5 standards mode."
       },
       {
-        type: "mcq",
+        id: 3,
+        type: "radio",
         topic: "Document Structure",
-        badge: "Bug Hunt",
-        question: "Alex saved this file and opened it in Chrome, but the page is completely blank. Why isn't the paragraph showing up?",
+        prompt: "Alex opened this HTML file in a browser, but the viewport is completely blank. Why didn't the paragraph render?",
         code: "<html>\n  <head>\n    <p>Welcome to my shop!</p>\n  </head>\n</html>",
         options: [
-          { text: "Visible elements like <p> must be placed inside a <body> tag, not <head>", correct: true },
-          { text: "Paragraph tags cannot contain exclamation marks", correct: false },
-          { text: "The <html> tag must be written in uppercase", correct: false },
-          { text: "The <head> tag needs an href attribute first", correct: false }
+          { text: "Visible tags like <p> must be placed inside <body>, not <head>", correct: true },
+          { text: "<p> elements cannot contain exclamation marks", correct: false },
+          { text: "<html> must be written in uppercase letters", correct: false },
+          { text: "<head> requires an href attribute first", correct: false }
         ],
-        explanation: "Only metadata like <title> goes in <head>. Everything the user sees on the page must be inside <body>."
+        explanation: "Only metadata belongs in <head>. All visible content must live inside <body>."
       },
       {
-        type: "mcq",
+        id: 4,
+        type: "radio",
         topic: "Headings",
-        badge: "Real-World Layout",
-        question: "You are building an article page. 'Space Exploration' should be the main page title, and 'Mars Rovers' should be a smaller section subheading below it. Which pair of tags fits best?",
+        prompt: "On an article page, 'Space Travel' is the main headline and 'Mars Base' is a section subheading underneath. Which tag pair fits best?",
         options: [
-          { text: "<h1>Space Exploration</h1> and <h2>Mars Rovers</h2>", isCode: true, correct: true },
-          { text: "<h6>Space Exploration</h6> and <h1>Mars Rovers</h1>", isCode: true, correct: false },
-          { text: "<head>Space Exploration</head> and <p>Mars Rovers</p>", isCode: true, correct: false },
-          { text: "<title>Space Exploration</title> and <h5>Mars Rovers</h5>", isCode: true, correct: false }
+          { text: "<h1>Space Travel</h1> and <h2>Mars Base</h2>", isCode: true, correct: true },
+          { text: "<h6>Space Travel</h6> and <h1>Mars Base</h1>", isCode: true, correct: false },
+          { text: "<head>Space Travel</head> and <p>Mars Base</p>", isCode: true, correct: false },
+          { text: "<title>Space Travel</title> and <h5>Mars Base</h5>", isCode: true, correct: false }
         ],
-        explanation: "<h1> is the largest, top-level heading, while <h2> is used for major subheadings underneath it.",
-        previewHTML: "<h2 style='margin:0 0 4px 0;'>Space Exploration</h2><h4 style='margin:0;color:#334155;'>Mars Rovers</h4>"
+        explanation: "<h1> is the primary top-level heading; <h2> defines major section subheadings.",
+        previewHTML: "<h3 style='margin:0 0 2px;'>Space Travel</h3><h4 style='margin:0;color:#52525b;'>Mars Base</h4>"
       },
       {
-        type: "builder",
+        id: 5,
+        type: "sequence",
         topic: "Paragraphs",
-        badge: "Build the Tag",
-        question: "Click the code blocks in the correct order to build a valid paragraph that displays: Hello World",
+        prompt: "Select the tokens in order to construct a valid paragraph displaying: Hello World",
         tokens: ["</p>", "Hello World", "<p>"],
         correctOrder: ["<p>", "Hello World", "</p>"],
-        explanation: "HTML elements wrap content between an opening <p> tag and a closing </p> tag.",
+        explanation: "An HTML paragraph wraps text between an opening <p> tag and a closing </p> tag.",
         previewHTML: "<p style='margin:0;'>Hello World</p>"
       },
       {
-        type: "mcq",
-        topic: "Paragraphs & Breaks",
-        badge: "Predict the Output",
-        question: "Sam pressed Enter inside his code editor like this:\nHow will the browser display it, and how can he force 'Line 2' onto a new line inside the same paragraph?",
+        id: 6,
+        type: "radio",
+        topic: "Line Breaks",
+        prompt: "Sam pressed Enter inside his editor like this. How does the browser display it, and how can he force 'Line 2' onto a new line?",
         code: "<p>Line 1\nLine 2</p>",
         options: [
-          { text: "It renders on one line; add <br> right after Line 1", correct: true },
-          { text: "It automatically renders on two separate lines", correct: false },
-          { text: "It renders on one line; add <lb> after Line 1", correct: false },
-          { text: "It causes a syntax error until </br> is added", correct: false }
+          { text: "Renders on one line; insert <br> right after Line 1", correct: true },
+          { text: "Automatically renders on two separate lines", correct: false },
+          { text: "Renders on one line; insert <lb> after Line 1", correct: false },
+          { text: "Throws a syntax error until </br> is added", correct: false }
         ],
-        explanation: "HTML collapses line breaks in source code into a single space. Use the empty <br> tag to break lines.",
+        explanation: "HTML collapses source newlines into a single space. Use the empty <br> tag to break lines.",
         previewHTML: "Line 1<br>Line 2"
       },
       {
-        type: "fill",
-        topic: "Paragraphs & Breaks",
-        badge: "Complete the Code",
-        question: "You want to draw a horizontal divider line between the introduction and the main story. Type the 2-letter HTML tag name:",
+        id: 7,
+        type: "input",
+        topic: "Dividers",
+        prompt: "Insert a horizontal divider line between two sections. Enter the 2-letter HTML tag name:",
         prefix: "<",
         suffix: ">",
         placeholder: "tag",
         accepted: ["hr", "<hr>"],
         displayAnswer: "hr",
-        explanation: "<hr> stands for Horizontal Rule and draws a horizontal line across the container.",
-        previewHTML: "<span>Intro</span><hr style='margin:6px 0;'><span>Main Story</span>"
+        explanation: "<hr> (Horizontal Rule) draws a horizontal divider line across the container.",
+        previewHTML: "<span>Part 1</span><hr style='margin:5px 0;'><span>Part 2</span>"
       },
       {
-        type: "mcq",
+        id: 8,
+        type: "radio",
         topic: "Text Formatting",
-        badge: "Scenario Fix",
-        question: "On a cooking blog, you want the warning word HOT! to appear in bold inside this sentence:\n<p>Careful, the pan is ___!</p>\nWhich snippet works properly?",
+        prompt: "You want the warning word HOT! in bold inside <p>Careful, pan is ___!</p>. Which snippet works?",
         options: [
           { text: "<b>HOT!</b>", isCode: true, correct: true },
           { text: "<bold>HOT!</bold>", isCode: true, correct: false },
           { text: "<i>HOT!</i>", isCode: true, correct: false },
           { text: "<u>HOT!</u>", isCode: true, correct: false }
         ],
-        explanation: "HTML uses <b> (or <strong>) for bold text—there is no <bold> tag.",
-        previewHTML: "Careful, the pan is <b>HOT!</b>"
+        explanation: "Use <b> (or <strong>) for bold text—HTML does not define a <bold> tag.",
+        previewHTML: "Careful, pan is <b>HOT!</b>"
       },
       {
-        type: "mcq",
+        id: 9,
+        type: "radio",
         topic: "Text Formatting",
-        badge: "Bug Hunt",
-        question: "Liam tried to italicize a movie title using <italic>Inception</italic>, but the browser showed plain normal text. Which tag should replace <italic>?",
+        prompt: "Liam wrote <italic>Inception</italic>, but the browser rendered plain unstyled text. Which tag should replace <italic>?",
         options: [
           { text: "<i>Inception</i>", isCode: true, correct: true },
           { text: "<u>Inception</u>", isCode: true, correct: false },
           { text: "<b>Inception</b>", isCode: true, correct: false },
           { text: "<it>Inception</it>", isCode: true, correct: false }
         ],
-        explanation: "The <i> tag (or <em>) italicizes text in HTML. Unknown tags like <italic> are ignored by browsers.",
-        previewHTML: "Favorite movie: <i>Inception</i>"
+        explanation: "<i> (or <em>) italicizes text. Browsers ignore unknown tags like <italic>.",
+        previewHTML: "Movie: <i>Inception</i>"
       },
       {
-        type: "fill",
+        id: 10,
+        type: "input",
         topic: "Text Formatting",
-        badge: "Complete the Code",
-        question: "Fill in the missing closing tag letter so only the word 'Note' is underlined:",
+        prompt: "Complete the closing tag so only the word 'Note' is underlined:",
         prefix: "<u>Note</",
-        suffix: "> Read carefully.",
+        suffix: "> Read first.",
         placeholder: "tag",
         accepted: ["u", "</u>"],
         displayAnswer: "u",
-        explanation: "Every opening <u> tag should be closed with </u> where the underline should stop.",
-        previewHTML: "<u>Note</u> Read carefully."
+        explanation: "Close the <u> tag with </u> immediately after the underlined word.",
+        previewHTML: "<u>Note</u> Read first."
       },
       {
-        type: "mcq",
+        id: 11,
+        type: "radio",
         topic: "Lists",
-        badge: "Real-World Layout",
-        question: "You are creating a bulleted packing list (Tent, Flashlight, Map) where item order doesn't matter. Which HTML structure creates bullet points?",
+        prompt: "Build a bulleted packing list (Tent, Map) where order doesn't matter. Which code produces bullet points?",
         options: [
-          { text: "<ul><li>Tent</li><li>Flashlight</li><li>Map</li></ul>", isCode: true, correct: true },
-          { text: "<ol><li>Tent</li><li>Flashlight</li><li>Map</li></ol>", isCode: true, correct: false },
-          { text: "<list><item>Tent</item><item>Flashlight</item></list>", isCode: true, correct: false },
-          { text: "<ul><p>Tent</p><p>Flashlight</p><p>Map</p></ul>", isCode: true, correct: false }
+          { text: "<ul><li>Tent</li><li>Map</li></ul>", isCode: true, correct: true },
+          { text: "<ol><li>Tent</li><li>Map</li></ol>", isCode: true, correct: false },
+          { text: "<list><item>Tent</item><item>Map</item></list>", isCode: true, correct: false },
+          { text: "<ul><p>Tent</p><p>Map</p></ul>", isCode: true, correct: false }
         ],
-        explanation: "<ul> (Unordered List) creates a bulleted list, with each entry wrapped inside <li> (List Item).",
-        previewHTML: "<ul style='margin-left:18px;'><li>Tent</li><li>Flashlight</li><li>Map</li></ul>"
+        explanation: "<ul> (Unordered List) creates bullets, with each entry wrapped inside <li>.",
+        previewHTML: "<ul style='margin-left:18px;'><li>Tent</li><li>Map</li></ul>"
       },
       {
-        type: "mcq",
+        id: 12,
+        type: "radio",
         topic: "Lists",
-        badge: "Bug Hunt",
-        question: "Look at this Top 2 Games numbered list. Why won't it display properly as numbered items?",
+        prompt: "Why won't this Top 2 Games numbered list render properly?",
         code: "<ol>\n  <ul>Minecraft</ul>\n  <ul>Tetris</ul>\n</ol>",
         options: [
-          { text: "Each item inside <ol> must use <li>...</li> instead of <ul>", correct: true },
-          { text: "<ol> only works for bullet points, not numbers", correct: false },
-          { text: "Numbered lists must use <nl> instead of <ol>", correct: false },
-          { text: "The <ol> tag requires a start='1' attribute to work", correct: false }
+          { text: "Items inside <ol> must use <li>...</li> instead of <ul>", correct: true },
+          { text: "<ol> only creates bullet points, never numbers", correct: false },
+          { text: "Numbered lists require <nl> instead of <ol>", correct: false },
+          { text: "<ol> needs a type='1' attribute to render", correct: false }
         ],
-        explanation: "Both <ol> (ordered) and <ul> (unordered) require <li> tags for their list items."
+        explanation: "Both <ol> and <ul> require <li> (List Item) tags around every individual item."
       },
       {
-        type: "builder",
-        topic: "Adding Links",
-        badge: "Build the Tag",
-        question: "Assemble the HTML code to create a clickable link to https://google.com with the label: Search",
+        id: 13,
+        type: "sequence",
+        topic: "Links",
+        prompt: "Assemble a clickable link to https://google.com with the visible text: Search",
         tokens: ["Search", "<a href=\"https://google.com\">", "</a>"],
         correctOrder: ["<a href=\"https://google.com\">", "Search", "</a>"],
-        explanation: "An anchor tag starts with <a href=\"URL\">, followed by the clickable link text, and closes with </a>.",
+        explanation: "Anchor links wrap the clickable label between <a href=\"URL\"> and </a>.",
         previewHTML: "<a href='#' onclick='return false;' style='color:#2563eb;text-decoration:underline;'>Search</a>"
       },
       {
-        type: "mcq",
-        topic: "Adding Links",
-        badge: "Bug Hunt",
-        question: "Priya wrote this link, and the word 'Wikipedia' shows up on the page, but clicking it does nothing! How do you fix it?",
+        id: 14,
+        type: "radio",
+        topic: "Links",
+        prompt: "Priya wrote this link, and 'Wikipedia' appears on screen, but clicking it does nothing. What is the fix?",
         code: "<a src=\"https://wikipedia.org\">Wikipedia</a>",
         options: [
           { text: "Change src to href", correct: true },
@@ -691,38 +890,38 @@
           { text: "Change <a> to <url>", correct: false },
           { text: "Add alt=\"Wikipedia\" inside <a>", correct: false }
         ],
-        explanation: "Links (<a>) use href (Hypertext Reference) for the destination URL—src is used for images (<img>)."
+        explanation: "<a> tags use href for the destination URL—src is used for <img> elements."
       },
       {
-        type: "fill",
-        topic: "Adding Links",
-        badge: "Complete the Code",
-        question: "Visitors complain that clicking your external help link navigates away from your website. Fill in the target value so it opens in a new browser tab:",
+        id: 15,
+        type: "input",
+        topic: "Links",
+        prompt: "Make this external link open in a new browser tab instead of replacing the current page:",
         prefix: "<a href=\"https://example.com\" target=\"",
         suffix: "\">Help</a>",
         placeholder: "_value",
         accepted: ["_blank"],
         displayAnswer: "_blank",
-        explanation: "Setting target=\"_blank\" tells the browser to open the linked page in a new tab."
+        explanation: "target=\"_blank\" instructs the browser to open the URL in a new tab."
       },
       {
-        type: "mcq",
-        topic: "Adding Links",
-        badge: "Scenario Fix",
-        question: "Your website folder has two files side by side: index.html and contact.html. Which code links from index.html to contact.html?",
+        id: 16,
+        type: "radio",
+        topic: "Links",
+        prompt: "Your folder contains index.html and contact.html side by side. Which tag links from index.html to contact.html?",
         options: [
-          { text: "<a href=\"contact.html\">Contact Us</a>", isCode: true, correct: true },
-          { text: "<a href=\"contact\">Contact Us</a>", isCode: true, correct: false },
-          { text: "<link href=\"contact.html\">Contact Us</link>", isCode: true, correct: false },
-          { text: "<img href=\"contact.html\" alt=\"Contact Us\">", isCode: true, correct: false }
+          { text: "<a href=\"contact.html\">Contact</a>", isCode: true, correct: true },
+          { text: "<a href=\"contact\">Contact</a>", isCode: true, correct: false },
+          { text: "<link href=\"contact.html\">Contact</link>", isCode: true, correct: false },
+          { text: "<img href=\"contact.html\" alt=\"Contact\">", isCode: true, correct: false }
         ],
-        explanation: "Relative links to another HTML file in the same folder need the exact filename including .html."
+        explanation: "Relative links to local files require the exact filename including the .html extension."
       },
       {
-        type: "mcq",
-        topic: "Adding Images",
-        badge: "Bug Hunt",
-        question: "This image tag has THREE bugs preventing it from working properly. Which option fixes all of them?",
+        id: 17,
+        type: "radio",
+        topic: "Images",
+        prompt: "This image tag has THREE bugs. Which option fixes all of them?",
         code: "<image href=\"dog.jpg\" text=\"Cute puppy\">",
         options: [
           { text: "<img src=\"dog.jpg\" alt=\"Cute puppy\">", isCode: true, correct: true },
@@ -730,53 +929,45 @@
           { text: "<img href=\"dog.jpg\" title=\"Cute puppy\"></img>", isCode: true, correct: false },
           { text: "<image src=\"dog.jpg\" alt=\"Cute puppy\">", isCode: true, correct: false }
         ],
-        explanation: "Images use the self-closing <img> tag (not <image>), src for the file path (not href), and alt for fallback text."
+        explanation: "Use the self-closing <img> tag, src for the image file path, and alt for fallback text."
       },
       {
-        type: "fill",
-        topic: "Adding Images",
-        badge: "Complete the Code",
-        question: "Fill in the missing attribute name that provides fallback text if the image fails to load (and helps screen readers):",
+        id: 18,
+        type: "input",
+        topic: "Images",
+        prompt: "Enter the missing attribute name that provides fallback text if the image fails to load:",
         prefix: "<img src=\"sunset.jpg\" ",
         suffix: "=\"Orange sunset\">",
         placeholder: "attr",
         accepted: ["alt"],
         displayAnswer: "alt",
-        explanation: "The alt (alternative text) attribute describes the image when it cannot be displayed."
+        explanation: "The alt attribute supplies descriptive alternative text for broken images and screen readers."
       },
       {
-        type: "builder",
-        topic: "Adding Images",
-        badge: "Build the Tag",
-        question: "Click the code blocks in the right order to display cat.png with fallback text 'Cat':",
+        id: 19,
+        type: "sequence",
+        topic: "Images",
+        prompt: "Select the tokens in order to display cat.png with fallback description 'Cat':",
         tokens: ["alt=\"Cat\">", "<img", "src=\"cat.png\""],
         correctOrder: ["<img", "src=\"cat.png\"", "alt=\"Cat\">"],
-        explanation: "An <img> tag opens with <img followed by its src and alt attributes and ends with > (no closing tag needed)."
+        explanation: "An <img> tag opens with <img followed by src and alt attributes and closes with >."
       },
       {
-        type: "mcq",
+        id: 20,
+        type: "radio",
         topic: "Links + Images",
-        badge: "Boss Challenge",
-        question: "You want clicking on your site's logo image (logo.png) to take the user back to index.html. How do you combine <a> and <img> properly?",
+        prompt: "Make clicking your site logo (logo.png) navigate back to index.html. How do you combine <a> and <img>?",
         options: [
           { text: "<a href=\"index.html\"><img src=\"logo.png\" alt=\"Home\"></a>", isCode: true, correct: true },
           { text: "<img src=\"logo.png\" href=\"index.html\" alt=\"Home\">", isCode: true, correct: false },
           { text: "<a src=\"logo.png\" href=\"index.html\">Home</a>", isCode: true, correct: false },
           { text: "<img src=\"logo.png\"><a href=\"index.html\"></a></img>", isCode: true, correct: false }
         ],
-        explanation: "Wrap the <img> element inside an <a href=\"...\">...</a> tag so the entire image becomes clickable!"
+        explanation: "Wrap the <img> element inside <a href=\"index.html\">...</a> so clicking the image triggers the link."
       }
     ];
 
-    let currentIndex = 0;
-    let score = 0;
-    let userAnswers = [];
-    let selectedTokens = [];
-
-    const progressBar = document.getElementById("progressBar");
-    const questionCounter = document.getElementById("questionCounter");
-    const scoreCounter = document.getElementById("scoreCounter");
-    const quizBody = document.getElementById("quizBody");
+    let formState = {};
 
     function escapeHTML(str) {
       return String(str)
@@ -786,7 +977,7 @@
         .replace(/"/g, "&quot;");
     }
 
-    function shuffleArray(arr) {
+    function shuffle(arr) {
       const copy = [...arr];
       for (let i = copy.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -795,305 +986,303 @@
       return copy;
     }
 
-    function buildFeedbackHTML(q, isCorrect) {
-      let html = `<strong>${isCorrect ? "Spot on!" : "Not quite."}</strong> ${escapeHTML(q.explanation)}`;
-      if (q.previewHTML) {
+    function buildNoteHTML(item, isCorrect) {
+      let html = `<strong>${isCorrect ? "[LOCKED // PASS]" : "[LOCKED // FAIL]"}</strong> ${escapeHTML(item.explanation)}`;
+      if (item.previewHTML) {
         html += `
-          <div class="browser-preview">
-            <div class="browser-bar">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span style="margin-left:6px;">Mini Browser Preview &mdash; ${escapeHTML(q.previewTitle || "index.html")}</span>
-            </div>
-            <div class="browser-content">${q.previewHTML}</div>
+          <div class="rendered-strip">
+            <span class="rendered-label">Rendered Output</span>
+            ${item.previewHTML}
           </div>
         `;
       }
       return html;
     }
 
-    function renderQuestion() {
-      const q = quizData[currentIndex];
-      selectedTokens = [];
+    function updateTelemetry() {
+      const records = Object.values(formState);
+      const lockedCount = records.filter((r) => r.locked).length;
+      const passCount = records.filter((r) => r.locked && r.isCorrect).length;
+      const pct = Math.round((passCount / questions.length) * 100);
+      const progressPct = Math.round((lockedCount / questions.length) * 100);
 
-      progressBar.style.width = `${((currentIndex + 1) / quizData.length) * 100}%`;
-      questionCounter.textContent = `Challenge ${currentIndex + 1} of ${quizData.length}`;
-      scoreCounter.textContent = `Score: ${score}`;
+      document.getElementById("statLocked").textContent = `${lockedCount}/20`;
+      document.getElementById("statScore").textContent = `${passCount}/20`;
+      document.getElementById("progressFill").style.width = `${progressPct}%`;
+      document.getElementById("receiptScore").textContent = `${passCount} / 20 (${pct}%)`;
 
-      let interactiveArea = "";
+      const heading = document.getElementById("receiptHeading");
+      const sub = document.getElementById("receiptSub");
+      const jumpContainer = document.getElementById("jumpContainer");
 
-      if (q.type === "mcq") {
-        const letters = ["A", "B", "C", "D"];
-        const shuffledOptions = shuffleArray(q.options);
-        q._renderedOptions = shuffledOptions;
+      if (lockedCount === questions.length) {
+        let grade = "TIER: ROOKIE";
+        if (pct >= 90) grade = "TIER: ARCHITECT [S]";
+        else if (pct >= 75) grade = "TIER: BUILDER [A]";
+        else if (pct >= 50) grade = "TIER: APPRENTICE [B]";
 
-        interactiveArea = `
-          ${q.code ? `<pre class="code-snippet">${escapeHTML(q.code)}</pre>` : ""}
-          <div class="options-list" id="optionsList">
-            ${shuffledOptions
-              .map(
-                (opt, idx) => `
-                <button class="option-btn" data-index="${idx}">
-                  <span class="option-letter">${letters[idx]}</span>
-                  <span class="${opt.isCode ? "option-code" : ""}">${escapeHTML(opt.text)}</span>
-                </button>
-              `
-              )
-              .join("")}
-          </div>
-        `;
-      } else if (q.type === "fill") {
-        interactiveArea = `
-          <div class="inline-code-editor">
-            <span>${escapeHTML(q.prefix)}</span>
-            <input type="text" id="codeInput" class="code-input" placeholder="${escapeHTML(q.placeholder)}" autocomplete="off" spellcheck="false" />
-            <span>${escapeHTML(q.suffix)}</span>
-          </div>
-          <div class="action-row">
-            <button class="primary-btn" id="checkFillBtn">Check Answer</button>
-          </div>
-        `;
-      } else if (q.type === "builder") {
-        const shuffledTokens = shuffleArray(q.tokens);
-        q._renderedTokens = shuffledTokens;
+        heading.textContent = `FORM COMPLETE // ${grade}`;
+        sub.textContent = `All 20 fields are permanently locked (${passCount}/20 passed). Click RESET FORM in the top bar for a fresh shuffled attempt.`;
 
-        interactiveArea = `
-          <div class="builder-assembly" id="assemblyZone">
-            <span style="font-size:0.88rem;">Click the code blocks below in order...</span>
-          </div>
-          <div class="builder-tokens" id="tokenPool">
-            ${shuffledTokens
-              .map(
-                (tok, idx) => `
-                <button class="token-chip" data-tok-idx="${idx}">${escapeHTML(tok)}</button>
-              `
-              )
-              .join("")}
-          </div>
-          <div class="action-row">
-            <button class="secondary-btn" id="clearBuilderBtn">Reset Blocks</button>
-            <button class="primary-btn" id="checkBuilderBtn" disabled>Check Code</button>
-          </div>
-        `;
-      }
-
-      quizBody.innerHTML = `
-        <div class="badge-row">
-          <span class="topic-badge">${escapeHTML(q.topic)}</span>
-          <span class="type-badge">${escapeHTML(q.badge)}</span>
-        </div>
-        <div class="question-text">${currentIndex + 1}. ${escapeHTML(q.question).replace(/\n/g, "<br>")}</div>
-        ${interactiveArea}
-        <div class="feedback-box" id="feedbackBox"></div>
-        <div class="quiz-footer">
-          <button class="primary-btn" id="nextBtn" disabled>
-            ${currentIndex === quizData.length - 1 ? "See Final Results" : "Next Challenge"}
-          </button>
-        </div>
-      `;
-
-      if (q.type === "mcq") {
-        quizBody.querySelectorAll(".option-btn").forEach((btn) => {
-          btn.addEventListener("click", () => handleMCQ(Number(btn.dataset.index)));
-        });
-      } else if (q.type === "fill") {
-        const inputEl = document.getElementById("codeInput");
-        const checkBtn = document.getElementById("checkFillBtn");
-        inputEl.focus();
-        checkBtn.addEventListener("click", handleFill);
-        inputEl.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" && !checkBtn.disabled) handleFill();
-        });
-      } else if (q.type === "builder") {
-        setupBuilder(q);
-      }
-
-      document.getElementById("nextBtn").addEventListener("click", () => {
-        currentIndex++;
-        if (currentIndex < quizData.length) {
-          renderQuestion();
+        const firstMiss = questions.find((q) => formState[q.id] && !formState[q.id].isCorrect);
+        if (firstMiss) {
+          jumpContainer.innerHTML = `<button type="button" class="jump-btn" onclick="document.getElementById('field-${firstMiss.id}').scrollIntoView({behavior:'smooth', block:'center'})">JUMP TO FIRST MISSED FIELD [${String(firstMiss.id).padStart(2, '0')}]</button>`;
         } else {
-          showResults();
+          jumpContainer.innerHTML = "";
         }
-      });
-    }
-
-    function handleMCQ(selectedIdx) {
-      const q = quizData[currentIndex];
-      const opts = q._renderedOptions;
-      const buttons = quizBody.querySelectorAll(".option-btn");
-      const isCorrect = opts[selectedIdx].correct;
-      const correctObj = opts.find((o) => o.correct);
-
-      if (isCorrect) {
-        score++;
-        scoreCounter.textContent = `Score: ${score}`;
-      }
-
-      userAnswers.push({
-        question: q.question.split("\n")[0],
-        chosen: opts[selectedIdx].text,
-        correct: correctObj.text,
-        isCorrect
-      });
-
-      buttons.forEach((btn, idx) => {
-        btn.disabled = true;
-        if (opts[idx].correct) {
-          btn.classList.add("correct");
-        } else if (idx === selectedIdx && !isCorrect) {
-          btn.classList.add("wrong");
-        }
-      });
-
-      const feedbackBox = document.getElementById("feedbackBox");
-      feedbackBox.className = `feedback-box show ${isCorrect ? "correct-fb" : "wrong-fb"}`;
-      feedbackBox.innerHTML = buildFeedbackHTML(q, isCorrect);
-      document.getElementById("nextBtn").disabled = false;
-    }
-
-    function handleFill() {
-      const q = quizData[currentIndex];
-      const inputEl = document.getElementById("codeInput");
-      const checkBtn = document.getElementById("checkFillBtn");
-      const rawVal = inputEl.value.trim();
-      if (!rawVal) return;
-
-      const normalized = rawVal.toLowerCase();
-      const isCorrect = q.accepted.includes(normalized);
-
-      inputEl.disabled = true;
-      checkBtn.disabled = true;
-      inputEl.classList.add(isCorrect ? "correct-input" : "wrong-input");
-
-      if (isCorrect) {
-        score++;
-        scoreCounter.textContent = `Score: ${score}`;
       } else {
-        inputEl.value = q.displayAnswer;
+        heading.textContent = `STATUS: ${lockedCount} OF 20 FIELDS LOCKED`;
+        sub.textContent = `${20 - lockedCount} field(s) remaining. Each answer locks permanently upon submission.`;
+        jumpContainer.innerHTML = "";
       }
-
-      userAnswers.push({
-        question: q.question,
-        chosen: `${q.prefix}${rawVal}${q.suffix}`,
-        correct: `${q.prefix}${q.displayAnswer}${q.suffix}`,
-        isCorrect
-      });
-
-      const feedbackBox = document.getElementById("feedbackBox");
-      feedbackBox.className = `feedback-box show ${isCorrect ? "correct-fb" : "wrong-fb"}`;
-      feedbackBox.innerHTML = buildFeedbackHTML(q, isCorrect);
-      document.getElementById("nextBtn").disabled = false;
     }
 
-    function setupBuilder(q) {
-      const assemblyZone = document.getElementById("assemblyZone");
-      const tokenButtons = quizBody.querySelectorAll(".token-chip");
-      const clearBtn = document.getElementById("clearBuilderBtn");
-      const checkBtn = document.getElementById("checkBuilderBtn");
+    function sealField(id, isCorrect, item) {
+      const fieldEl = document.getElementById(`field-${id}`);
+      const statusEl = document.getElementById(`status-${id}`);
+      const noteEl = document.getElementById(`note-${id}`);
 
-      function refreshAssembly() {
-        if (selectedTokens.length === 0) {
-          assemblyZone.innerHTML = `<span style="font-size:0.88rem;">Click the code blocks below in order...</span>`;
-          checkBtn.disabled = true;
-        } else {
-          assemblyZone.innerHTML = selectedTokens
-            .map((item) => `<span class="assembled-chip">${escapeHTML(item.text)}</span>`)
-            .join("");
-          checkBtn.disabled = selectedTokens.length !== q.correctOrder.length;
+      fieldEl.classList.add(isCorrect ? "locked-pass" : "locked-fail");
+      statusEl.textContent = isCorrect ? "[ LOCKED // PASS ]" : "[ LOCKED // FAIL ]";
+      statusEl.className = `field-status ${isCorrect ? "status-pass" : "status-fail"}`;
+
+      noteEl.className = `field-note show ${isCorrect ? "note-pass" : "note-fail"}`;
+      noteEl.innerHTML = buildNoteHTML(item, isCorrect);
+      updateTelemetry();
+    }
+
+    function renderForm() {
+      const container = document.getElementById("formFieldsContainer");
+      container.innerHTML = "";
+      formState = {};
+
+      questions.forEach((item) => {
+        const numStr = `[${String(item.id).padStart(2, "0")}]`;
+        formState[item.id] = {
+          locked: false,
+          isCorrect: false,
+          selectedTokens: []
+        };
+
+        const section = document.createElement("section");
+        section.className = "form-field";
+        section.id = `field-${item.id}`;
+
+        let controlHTML = "";
+
+        if (item.type === "radio") {
+          const keys = ["A", "B", "C", "D"];
+          const shuffledOpts = shuffle(item.options);
+          formState[item.id].shuffledOpts = shuffledOpts;
+
+          controlHTML = `
+            ${item.code ? `<pre class="code-block">${escapeHTML(item.code)}</pre>` : ""}
+            <div class="radio-group" id="group-${item.id}">
+              ${shuffledOpts
+                .map(
+                  (opt, idx) => `
+                  <button type="button" class="radio-option" data-idx="${idx}">
+                    <span class="radio-box">[${keys[idx]}]</span>
+                    <span class="${opt.isCode ? "option-code" : ""}">${escapeHTML(opt.text)}</span>
+                  </button>
+                `
+                )
+                .join("")}
+            </div>
+          `;
+        } else if (item.type === "input") {
+          controlHTML = `
+            <div class="input-line">
+              <span>${escapeHTML(item.prefix)}</span>
+              <input type="text" class="minimal-input" id="inp-${item.id}" placeholder="${escapeHTML(item.placeholder)}" autocomplete="off" spellcheck="false" />
+              <span>${escapeHTML(item.suffix)}</span>
+            </div>
+            <div class="control-row">
+              <button type="button" class="lock-submit-btn" id="btn-${item.id}">LOCK ANSWER</button>
+            </div>
+          `;
+        } else if (item.type === "sequence") {
+          const shuffledTokens = shuffle(item.tokens);
+          formState[item.id].shuffledTokens = shuffledTokens;
+
+          controlHTML = `
+            <div class="seq-display" id="seq-${item.id}">
+              <span class="seq-hint">Click tokens below in sequence...</span>
+            </div>
+            <div class="token-row" id="bank-${item.id}">
+              ${shuffledTokens
+                .map(
+                  (tok, idx) => `
+                  <button type="button" class="token-btn" data-tidx="${idx}">${escapeHTML(tok)}</button>
+                `
+                )
+                .join("")}
+            </div>
+            <div class="control-row">
+              <button type="button" class="clear-seq-btn" id="clr-${item.id}">CLEAR</button>
+              <button type="button" class="lock-submit-btn" id="btn-${item.id}" disabled>LOCK SEQUENCE</button>
+            </div>
+          `;
         }
-      }
 
-      tokenButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const idx = Number(btn.dataset.tokIdx);
-          btn.disabled = true;
-          selectedTokens.push({ idx, text: q._renderedTokens[idx] });
-          refreshAssembly();
-        });
-      });
+        section.innerHTML = `
+          <div class="field-header">
+            <div class="field-tags">
+              <span class="field-index">${numStr}</span>
+              <span class="field-topic">${escapeHTML(item.topic)}</span>
+            </div>
+            <span class="field-status" id="status-${item.id}">[ OPEN ]</span>
+          </div>
+          <div class="field-prompt">${escapeHTML(item.prompt)}</div>
+          ${controlHTML}
+          <div class="field-note" id="note-${item.id}"></div>
+        `;
 
-      clearBtn.addEventListener("click", () => {
-        selectedTokens = [];
-        tokenButtons.forEach((b) => (b.disabled = false));
-        refreshAssembly();
-      });
+        container.appendChild(section);
 
-      checkBtn.addEventListener("click", () => {
-        clearBtn.disabled = true;
-        checkBtn.disabled = true;
-        tokenButtons.forEach((b) => (b.disabled = true));
+        // Bind strict single-lock handlers
+        if (item.type === "radio") {
+          const group = document.getElementById(`group-${item.id}`);
+          const buttons = group.querySelectorAll(".radio-option");
+          buttons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              if (formState[item.id].locked) return;
+              formState[item.id].locked = true;
 
-        const userSeq = selectedTokens.map((t) => t.text);
-        const isCorrect = JSON.stringify(userSeq) === JSON.stringify(q.correctOrder);
+              const chosenIdx = Number(btn.dataset.idx);
+              const opts = formState[item.id].shuffledOpts;
+              const isCorrect = Boolean(opts[chosenIdx].correct);
+              formState[item.id].isCorrect = isCorrect;
 
-        assemblyZone.style.borderStyle = "solid";
-        assemblyZone.style.borderColor = isCorrect ? "#22c55e" : "#ef4444";
+              buttons.forEach((b, i) => {
+                b.disabled = true;
+                const box = b.querySelector(".radio-box");
+                if (opts[i].correct) {
+                  b.classList.add("opt-pass");
+                  box.textContent = "[✓]";
+                } else if (i === chosenIdx && !isCorrect) {
+                  b.classList.add("opt-fail");
+                  box.textContent = "[×]";
+                } else {
+                  b.classList.add("opt-muted");
+                }
+              });
 
-        if (isCorrect) {
-          score++;
-          scoreCounter.textContent = `Score: ${score}`;
+              sealField(item.id, isCorrect, item);
+            });
+          });
+        } else if (item.type === "input") {
+          const input = document.getElementById(`inp-${item.id}`);
+          const submitBtn = document.getElementById(`btn-${item.id}`);
+
+          const lockInput = () => {
+            if (formState[item.id].locked) return;
+            const raw = input.value.trim();
+            if (!raw) {
+              input.focus();
+              return;
+            }
+
+            formState[item.id].locked = true;
+            const isCorrect = item.accepted.includes(raw.toLowerCase());
+            formState[item.id].isCorrect = isCorrect;
+
+            input.disabled = true;
+            input.readOnly = true;
+            submitBtn.disabled = true;
+            submitBtn.textContent = "LOCKED";
+
+            if (isCorrect) {
+              input.classList.add("inp-pass");
+            } else {
+              input.classList.add("inp-fail");
+              input.style.width = "auto";
+              input.value = `${raw} -> ${item.displayAnswer}`;
+            }
+
+            sealField(item.id, isCorrect, item);
+          };
+
+          submitBtn.addEventListener("click", lockInput);
+          input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              lockInput();
+            }
+          });
+        } else if (item.type === "sequence") {
+          const seqBox = document.getElementById(`seq-${item.id}`);
+          const bank = document.getElementById(`bank-${item.id}`);
+          const tokenBtns = bank.querySelectorAll(".token-btn");
+          const clearBtn = document.getElementById(`clr-${item.id}`);
+          const submitBtn = document.getElementById(`btn-${item.id}`);
+
+          const updateSeq = () => {
+            const picked = formState[item.id].selectedTokens;
+            if (picked.length === 0) {
+              seqBox.innerHTML = `<span class="seq-hint">Click tokens below in sequence...</span>`;
+              submitBtn.disabled = true;
+            } else {
+              seqBox.innerHTML = picked
+                .map((t) => `<span class="seq-token">${escapeHTML(t)}</span>`)
+                .join("");
+              submitBtn.disabled = picked.length !== item.correctOrder.length;
+            }
+          };
+
+          tokenBtns.forEach((tBtn) => {
+            tBtn.addEventListener("click", () => {
+              if (formState[item.id].locked) return;
+              const idx = Number(tBtn.dataset.tidx);
+              tBtn.disabled = true;
+              formState[item.id].selectedTokens.push(formState[item.id].shuffledTokens[idx]);
+              updateSeq();
+            });
+          });
+
+          clearBtn.addEventListener("click", () => {
+            if (formState[item.id].locked) return;
+            formState[item.id].selectedTokens = [];
+            tokenBtns.forEach((b) => (b.disabled = false));
+            updateSeq();
+          });
+
+          submitBtn.addEventListener("click", () => {
+            if (formState[item.id].locked) return;
+            formState[item.id].locked = true;
+
+            const userSeq = formState[item.id].selectedTokens;
+            const isCorrect = JSON.stringify(userSeq) === JSON.stringify(item.correctOrder);
+            formState[item.id].isCorrect = isCorrect;
+
+            tokenBtns.forEach((b) => (b.disabled = true));
+            clearBtn.disabled = true;
+            submitBtn.disabled = true;
+            submitBtn.textContent = "LOCKED";
+
+            seqBox.style.borderStyle = "solid";
+            seqBox.style.borderColor = isCorrect ? "var(--neon-lime)" : "var(--neon-red)";
+
+            if (!isCorrect) {
+              seqBox.innerHTML = item.correctOrder
+                .map((t) => `<span class="seq-token">${escapeHTML(t)}</span>`)
+                .join("");
+            }
+
+            sealField(item.id, isCorrect, item);
+          });
         }
-
-        userAnswers.push({
-          question: q.question,
-          chosen: userSeq.join(" "),
-          correct: q.correctOrder.join(" "),
-          isCorrect
-        });
-
-        const feedbackBox = document.getElementById("feedbackBox");
-        feedbackBox.className = `feedback-box show ${isCorrect ? "correct-fb" : "wrong-fb"}`;
-        feedbackBox.innerHTML = buildFeedbackHTML(q, isCorrect);
-        document.getElementById("nextBtn").disabled = false;
       });
+
+      updateTelemetry();
     }
 
-    function showResults() {
-      const percentage = Math.round((score / quizData.length) * 100);
-      let message = "Good start! Review the solutions below and try building the tags again.";
-      if (percentage >= 90) message = "Outstanding! You can read, debug, and write core HTML tags up to links and images.";
-      else if (percentage >= 70) message = "Great work! You have strong hands-on HTML problem-solving skills.";
-      else if (percentage >= 50) message = "Solid effort! Check the missed bugs below and give it another run.";
+    document.getElementById("resetFormBtn").addEventListener("click", () => {
+      renderForm();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
 
-      quizBody.innerHTML = `
-        <div class="result-screen">
-          <div class="score-circle">
-            <span class="score-num">${score}/${quizData.length}</span>
-            <span class="score-total">${percentage}%</span>
-          </div>
-          <h2 class="result-title">Lab Completed!</h2>
-          <p class="result-msg">${message}</p>
-          <button class="primary-btn" id="restartBtn">Play Again (New Shuffle)</button>
-
-          <div class="review-list">
-            ${userAnswers
-              .map(
-                (item, i) => `
-                <div class="review-item ${item.isCorrect ? "ok" : "bad"}">
-                  <strong>Q${i + 1}:</strong> ${escapeHTML(item.question)}<br />
-                  <span>Your answer: <code class="inline">${escapeHTML(item.chosen)}</code></span>
-                  ${
-                    item.isCorrect
-                      ? " &mdash; <strong>Correct</strong>"
-                      : `<br /><span>Solution: <code class="inline">${escapeHTML(item.correct)}</code></span>`
-                  }
-                </div>
-              `
-              )
-              .join("")}
-          </div>
-        </div>
-      `;
-
-      document.getElementById("restartBtn").addEventListener("click", () => {
-        currentIndex = 0;
-        score = 0;
-        userAnswers = [];
-        renderQuestion();
-      });
-    }
-
-    renderQuestion();
+    renderForm();
   </script>
 </body>
 </html>
