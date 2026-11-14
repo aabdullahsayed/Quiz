@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Basic HTML Tags Quiz (Up to Links & Images)</title>
+  <title>Interactive HTML Problem-Solving Quiz (Up to Links & Images)</title>
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #1e293b;
       min-height: 100vh;
       display: flex;
@@ -25,25 +25,25 @@
     .quiz-container {
       background: #ffffff;
       width: 100%;
-      max-width: 680px;
+      max-width: 740px;
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(30, 41, 59, 0.12);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
       overflow: hidden;
     }
 
     .quiz-header {
-      background: #2563eb;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       color: #ffffff;
-      padding: 24px 28px;
+      padding: 22px 28px;
     }
 
     .quiz-header h1 {
-      font-size: 1.5rem;
-      margin-bottom: 6px;
+      font-size: 1.45rem;
+      margin-bottom: 4px;
     }
 
     .quiz-header p {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       opacity: 0.9;
     }
 
@@ -51,7 +51,7 @@
       background: rgba(255, 255, 255, 0.25);
       height: 8px;
       border-radius: 999px;
-      margin-top: 16px;
+      margin-top: 14px;
       overflow: hidden;
     }
 
@@ -74,39 +74,199 @@
       padding: 28px;
     }
 
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
     .topic-badge {
       display: inline-block;
       background: #dbeafe;
       color: #1d4ed8;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 700;
       padding: 4px 10px;
       border-radius: 999px;
-      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .type-badge {
+      display: inline-block;
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
 
     .question-text {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 600;
-      margin-bottom: 20px;
-      line-height: 1.45;
+      margin-bottom: 16px;
+      line-height: 1.5;
     }
 
-    code {
+    .code-snippet {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      overflow-x: auto;
+      border: 1px solid #334155;
+      white-space: pre-wrap;
+    }
+
+    .inline-code-editor {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 18px;
+      border-radius: 10px;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      border: 2px solid #334155;
+    }
+
+    .code-input {
+      background: #1e293b;
+      color: #fde047;
+      border: 2px solid #60a5fa;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      width: 130px;
+      outline: none;
+    }
+
+    .code-input:focus {
+      border-color: #fde047;
+      box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.25);
+    }
+
+    .code-input.correct-input {
+      border-color: #22c55e;
+      background: #14532d;
+      color: #bbf7d0;
+    }
+
+    .code-input.wrong-input {
+      border-color: #ef4444;
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+
+    .builder-assembly {
+      min-height: 54px;
+      background: #0f172a;
+      border: 2px dashed #475569;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-family: Consolas, Monaco, monospace;
+      color: #94a3b8;
+    }
+
+    .builder-tokens {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .token-chip {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 2px solid #93c5fd;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .token-chip:hover:not(:disabled) {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .token-chip:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .assembled-chip {
+      background: #1e293b;
+      color: #fde047;
+      border: 1px solid #64748b;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .secondary-btn {
+      background: #e2e8f0;
+      color: #334155;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .secondary-btn:hover:not(:disabled) {
+      background: #cbd5e1;
+    }
+
+    .secondary-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    code.inline {
       background: #f1f5f9;
       color: #be123c;
       padding: 2px 6px;
       border-radius: 4px;
       font-family: Consolas, Monaco, monospace;
-      font-size: 0.95em;
+      font-size: 0.92em;
     }
 
     .options-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 11px;
     }
 
     .option-btn {
@@ -115,11 +275,11 @@
       background: #f8fafc;
       border: 2px solid #e2e8f0;
       border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 1rem;
+      padding: 13px 16px;
+      font-size: 0.98rem;
       color: #1e293b;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -170,12 +330,17 @@
       color: #ffffff;
     }
 
+    .option-code {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.93rem;
+    }
+
     .feedback-box {
       margin-top: 18px;
-      padding: 12px 16px;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border-radius: 10px;
       font-size: 0.94rem;
-      line-height: 1.45;
+      line-height: 1.5;
       display: none;
     }
 
@@ -195,8 +360,41 @@
       color: #991b1b;
     }
 
+    .browser-preview {
+      margin-top: 10px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      overflow: hidden;
+      color: #0f172a;
+    }
+
+    .browser-bar {
+      background: #e2e8f0;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      color: #475569;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #94a3b8;
+      display: inline-block;
+    }
+
+    .browser-content {
+      padding: 10px 14px;
+      font-size: 0.92rem;
+    }
+
     .quiz-footer {
-      margin-top: 24px;
+      margin-top: 22px;
       display: flex;
       justify-content: flex-end;
     }
@@ -206,8 +404,8 @@
       color: #ffffff;
       border: none;
       border-radius: 8px;
-      padding: 12px 24px;
-      font-size: 1rem;
+      padding: 11px 22px;
+      font-size: 0.98rem;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s ease;
@@ -224,12 +422,12 @@
 
     .result-screen {
       text-align: center;
-      padding: 12px 0;
+      padding: 8px 0;
     }
 
     .score-circle {
-      width: 130px;
-      height: 130px;
+      width: 128px;
+      height: 128px;
       border-radius: 50%;
       background: #eff6ff;
       border: 6px solid #2563eb;
@@ -237,11 +435,11 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 0 auto 20px;
+      margin: 0 auto 18px;
     }
 
     .score-circle .score-num {
-      font-size: 2rem;
+      font-size: 1.95rem;
       font-weight: 800;
       color: #1d4ed8;
     }
@@ -253,21 +451,21 @@
     }
 
     .result-title {
-      font-size: 1.5rem;
-      margin-bottom: 8px;
+      font-size: 1.45rem;
+      margin-bottom: 6px;
     }
 
     .result-msg {
       color: #475569;
-      margin-bottom: 24px;
-      font-size: 1rem;
+      margin-bottom: 20px;
+      font-size: 0.98rem;
     }
 
     .review-list {
       text-align: left;
-      margin-top: 24px;
+      margin-top: 22px;
       border-top: 1px solid #e2e8f0;
-      padding-top: 20px;
+      padding-top: 18px;
       max-height: 320px;
       overflow-y: auto;
     }
@@ -276,7 +474,7 @@
       padding: 10px 12px;
       border-radius: 8px;
       margin-bottom: 10px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       background: #f8fafc;
       border-left: 4px solid #cbd5e1;
     }
@@ -293,275 +491,287 @@
 <body>
   <div class="quiz-container">
     <div class="quiz-header">
-      <h1>Basic HTML Tags Quiz</h1>
-      <p>Easy Level &bull; 20 Questions (Structure, Text, Lists, Links &amp; Images)</p>
+      <h1>Interactive HTML Tag Problem Lab</h1>
+      <p>20 Easy Hands-On Challenges &bull; Structure, Text, Lists, Links &amp; Images</p>
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressBar"></div>
       </div>
       <div class="status-row">
-        <span id="questionCounter">Question 1 of 20</span>
+        <span id="questionCounter">Challenge 1 of 20</span>
         <span id="scoreCounter">Score: 0</span>
       </div>
     </div>
 
-    <div class="quiz-body" id="quizBody">
-      <span class="topic-badge" id="topicBadge">HTML Basics</span>
-      <div class="question-text" id="questionText"></div>
-      <div class="options-list" id="optionsList"></div>
-      <div class="feedback-box" id="feedbackBox"></div>
-      <div class="quiz-footer">
-        <button class="primary-btn" id="nextBtn" disabled>Next Question</button>
-      </div>
-    </div>
+    <div class="quiz-body" id="quizBody"></div>
   </div>
 
   <script>
     const quizData = [
       {
-        topic: "HTML Basics",
-        question: "What does HTML stand for?",
-        options: [
-          "Hyper Text Markup Language",
-          "High Tech Modern Language",
-          "Home Tool Markup Language",
-          "Hyperlink and Text Management Language"
-        ],
-        answer: 0,
-        explanation: "HTML stands for Hyper Text Markup Language, the standard language for creating web pages."
-      },
-      {
+        type: "mcq",
         topic: "Document Structure",
-        question: "Which declaration defines that a document is an HTML5 page?",
+        badge: "Scenario Fix",
+        question: "Maya wrote <h1>My Portfolio</h1> inside <body>, so it appears on the page, but the browser tab still says 'index.html'. Where should she add <title>My Portfolio</title> to fix the tab?",
         options: [
-          "<!DOCTYPE html>",
-          "<html5>",
-          "<!HTML>",
-          "<doctype>"
+          { text: "Inside the <head> section", correct: true },
+          { text: "Inside <body> right above <h1>", correct: false },
+          { text: "Before the <!DOCTYPE html> line", correct: false },
+          { text: "Inside the <h1> tag itself", correct: false }
         ],
-        answer: 0,
-        explanation: "<!DOCTYPE html> is placed at the very top of the file to tell the browser this is an HTML5 document."
+        explanation: "The <title> element belongs inside <head>—it sets the browser tab label rather than page text.",
+        previewTitle: "My Portfolio",
+        previewHTML: "<span style='color:#64748b;font-size:0.85rem;'>Tab title updates to <strong>My Portfolio</strong>!</span>"
       },
       {
+        type: "fill",
         topic: "Document Structure",
-        question: "Which tag is the root element that wraps all content on an HTML page?",
-        options: [
-          "<html>",
-          "<head>",
-          "<body>",
-          "<page>"
-        ],
-        answer: 0,
-        explanation: "The <html> tag is the root container for the entire HTML document."
+        badge: "Complete the Code",
+        question: "Line 1 of an HTML5 file tells the browser which version of HTML you are using. Type the missing word to complete the declaration:",
+        prefix: "<!",
+        suffix: " html>",
+        placeholder: "word",
+        accepted: ["doctype", "<!doctype html>"],
+        displayAnswer: "DOCTYPE",
+        explanation: "<!DOCTYPE html> is required at the very top of every modern HTML5 document."
       },
       {
+        type: "mcq",
         topic: "Document Structure",
-        question: "Where should the <title> tag be placed in an HTML file?",
+        badge: "Bug Hunt",
+        question: "Alex saved this file and opened it in Chrome, but the page is completely blank. Why isn't the paragraph showing up?",
+        code: "<html>\n  <head>\n    <p>Welcome to my shop!</p>\n  </head>\n</html>",
         options: [
-          "Inside the <head> tag",
-          "Inside the <body> tag",
-          "Inside the <h1> tag",
-          "After the </html> tag"
+          { text: "Visible elements like <p> must be placed inside a <body> tag, not <head>", correct: true },
+          { text: "Paragraph tags cannot contain exclamation marks", correct: false },
+          { text: "The <html> tag must be written in uppercase", correct: false },
+          { text: "The <head> tag needs an href attribute first", correct: false }
         ],
-        answer: 0,
-        explanation: "The <title> tag goes inside <head> and sets the title shown on the browser tab."
+        explanation: "Only metadata like <title> goes in <head>. Everything the user sees on the page must be inside <body>."
       },
       {
-        topic: "Document Structure",
-        question: "Which tag holds all the visible content of a web page (headings, text, links, images)?",
-        options: [
-          "<body>",
-          "<head>",
-          "<title>",
-          "<meta>"
-        ],
-        answer: 0,
-        explanation: "Everything visible on the web page goes inside the <body> element."
-      },
-      {
+        type: "mcq",
         topic: "Headings",
-        question: "Which HTML tag creates the largest and most important heading?",
+        badge: "Real-World Layout",
+        question: "You are building an article page. 'Space Exploration' should be the main page title, and 'Mars Rovers' should be a smaller section subheading below it. Which pair of tags fits best?",
         options: [
-          "<h1>",
-          "<h6>",
-          "<head>",
-          "<heading>"
+          { text: "<h1>Space Exploration</h1> and <h2>Mars Rovers</h2>", isCode: true, correct: true },
+          { text: "<h6>Space Exploration</h6> and <h1>Mars Rovers</h1>", isCode: true, correct: false },
+          { text: "<head>Space Exploration</head> and <p>Mars Rovers</p>", isCode: true, correct: false },
+          { text: "<title>Space Exploration</title> and <h5>Mars Rovers</h5>", isCode: true, correct: false }
         ],
-        answer: 0,
-        explanation: "<h1> defines the main (largest) heading, while <h6> defines the smallest heading."
+        explanation: "<h1> is the largest, top-level heading, while <h2> is used for major subheadings underneath it.",
+        previewHTML: "<h2 style='margin:0 0 4px 0;'>Space Exploration</h2><h4 style='margin:0;color:#334155;'>Mars Rovers</h4>"
       },
       {
-        topic: "Headings",
-        question: "Which HTML tag defines the smallest heading level?",
-        options: [
-          "<h6>",
-          "<h1>",
-          "<h3>",
-          "<small>"
-        ],
-        answer: 0,
-        explanation: "HTML headings range from <h1> (largest) down to <h6> (smallest)."
+        type: "builder",
+        topic: "Paragraphs",
+        badge: "Build the Tag",
+        question: "Click the code blocks in the correct order to build a valid paragraph that displays: Hello World",
+        tokens: ["</p>", "Hello World", "<p>"],
+        correctOrder: ["<p>", "Hello World", "</p>"],
+        explanation: "HTML elements wrap content between an opening <p> tag and a closing </p> tag.",
+        previewHTML: "<p style='margin:0;'>Hello World</p>"
       },
       {
+        type: "mcq",
         topic: "Paragraphs & Breaks",
-        question: "Which tag is used to create a paragraph in HTML?",
+        badge: "Predict the Output",
+        question: "Sam pressed Enter inside his code editor like this:\nHow will the browser display it, and how can he force 'Line 2' onto a new line inside the same paragraph?",
+        code: "<p>Line 1\nLine 2</p>",
         options: [
-          "<p>",
-          "<para>",
-          "<pg>",
-          "<text>"
+          { text: "It renders on one line; add <br> right after Line 1", correct: true },
+          { text: "It automatically renders on two separate lines", correct: false },
+          { text: "It renders on one line; add <lb> after Line 1", correct: false },
+          { text: "It causes a syntax error until </br> is added", correct: false }
         ],
-        answer: 0,
-        explanation: "The <p> tag defines a paragraph and automatically adds space before and after it."
+        explanation: "HTML collapses line breaks in source code into a single space. Use the empty <br> tag to break lines.",
+        previewHTML: "Line 1<br>Line 2"
       },
       {
+        type: "fill",
         topic: "Paragraphs & Breaks",
-        question: "Which empty tag inserts a single line break without starting a new paragraph?",
-        options: [
-          "<br>",
-          "<lb>",
-          "<break>",
-          "<hr>"
-        ],
-        answer: 0,
-        explanation: "<br> creates a line break and does not require a closing tag."
+        badge: "Complete the Code",
+        question: "You want to draw a horizontal divider line between the introduction and the main story. Type the 2-letter HTML tag name:",
+        prefix: "<",
+        suffix: ">",
+        placeholder: "tag",
+        accepted: ["hr", "<hr>"],
+        displayAnswer: "hr",
+        explanation: "<hr> stands for Horizontal Rule and draws a horizontal line across the container.",
+        previewHTML: "<span>Intro</span><hr style='margin:6px 0;'><span>Main Story</span>"
       },
       {
-        topic: "Paragraphs & Breaks",
-        question: "Which tag draws a horizontal line across the web page?",
-        options: [
-          "<hr>",
-          "<line>",
-          "<br>",
-          "<hl>"
-        ],
-        answer: 0,
-        explanation: "The <hr> (horizontal rule) tag creates a horizontal divider line."
-      },
-      {
+        type: "mcq",
         topic: "Text Formatting",
-        question: "Which tag is used to make text bold?",
+        badge: "Scenario Fix",
+        question: "On a cooking blog, you want the warning word HOT! to appear in bold inside this sentence:\n<p>Careful, the pan is ___!</p>\nWhich snippet works properly?",
         options: [
-          "<b>",
-          "<bold>",
-          "<i>",
-          "<u>"
+          { text: "<b>HOT!</b>", isCode: true, correct: true },
+          { text: "<bold>HOT!</bold>", isCode: true, correct: false },
+          { text: "<i>HOT!</i>", isCode: true, correct: false },
+          { text: "<u>HOT!</u>", isCode: true, correct: false }
         ],
-        answer: 0,
-        explanation: "The <b> tag (or <strong>) displays text in bold."
+        explanation: "HTML uses <b> (or <strong>) for bold text—there is no <bold> tag.",
+        previewHTML: "Careful, the pan is <b>HOT!</b>"
       },
       {
+        type: "mcq",
         topic: "Text Formatting",
-        question: "Which tag displays text in italics?",
+        badge: "Bug Hunt",
+        question: "Liam tried to italicize a movie title using <italic>Inception</italic>, but the browser showed plain normal text. Which tag should replace <italic>?",
         options: [
-          "<i>",
-          "<italic>",
-          "<b>",
-          "<ul>"
+          { text: "<i>Inception</i>", isCode: true, correct: true },
+          { text: "<u>Inception</u>", isCode: true, correct: false },
+          { text: "<b>Inception</b>", isCode: true, correct: false },
+          { text: "<it>Inception</it>", isCode: true, correct: false }
         ],
-        answer: 0,
-        explanation: "The <i> tag (or <em>) formats text in italics."
+        explanation: "The <i> tag (or <em>) italicizes text in HTML. Unknown tags like <italic> are ignored by browsers.",
+        previewHTML: "Favorite movie: <i>Inception</i>"
       },
       {
+        type: "fill",
         topic: "Text Formatting",
-        question: "Which tag is used to underline text in HTML?",
-        options: [
-          "<u>",
-          "<underline>",
-          "<ul_text>",
-          "<line>"
-        ],
-        answer: 0,
-        explanation: "The <u> tag underlines the enclosed text."
+        badge: "Complete the Code",
+        question: "Fill in the missing closing tag letter so only the word 'Note' is underlined:",
+        prefix: "<u>Note</",
+        suffix: "> Read carefully.",
+        placeholder: "tag",
+        accepted: ["u", "</u>"],
+        displayAnswer: "u",
+        explanation: "Every opening <u> tag should be closed with </u> where the underline should stop.",
+        previewHTML: "<u>Note</u> Read carefully."
       },
       {
+        type: "mcq",
         topic: "Lists",
-        question: "Which tag creates a bulleted (unordered) list?",
+        badge: "Real-World Layout",
+        question: "You are creating a bulleted packing list (Tent, Flashlight, Map) where item order doesn't matter. Which HTML structure creates bullet points?",
         options: [
-          "<ul>",
-          "<ol>",
-          "<li>",
-          "<list>"
+          { text: "<ul><li>Tent</li><li>Flashlight</li><li>Map</li></ul>", isCode: true, correct: true },
+          { text: "<ol><li>Tent</li><li>Flashlight</li><li>Map</li></ol>", isCode: true, correct: false },
+          { text: "<list><item>Tent</item><item>Flashlight</item></list>", isCode: true, correct: false },
+          { text: "<ul><p>Tent</p><p>Flashlight</p><p>Map</p></ul>", isCode: true, correct: false }
         ],
-        answer: 0,
-        explanation: "<ul> stands for unordered list and displays items with bullets."
+        explanation: "<ul> (Unordered List) creates a bulleted list, with each entry wrapped inside <li> (List Item).",
+        previewHTML: "<ul style='margin-left:18px;'><li>Tent</li><li>Flashlight</li><li>Map</li></ul>"
       },
       {
+        type: "mcq",
         topic: "Lists",
-        question: "Which tag defines each item inside a <ul> or <ol> list?",
+        badge: "Bug Hunt",
+        question: "Look at this Top 2 Games numbered list. Why won't it display properly as numbered items?",
+        code: "<ol>\n  <ul>Minecraft</ul>\n  <ul>Tetris</ul>\n</ol>",
         options: [
-          "<li>",
-          "<ul>",
-          "<ol>",
-          "<item>"
+          { text: "Each item inside <ol> must use <li>...</li> instead of <ul>", correct: true },
+          { text: "<ol> only works for bullet points, not numbers", correct: false },
+          { text: "Numbered lists must use <nl> instead of <ol>", correct: false },
+          { text: "The <ol> tag requires a start='1' attribute to work", correct: false }
         ],
-        answer: 0,
-        explanation: "<li> stands for list item and is used inside both <ul> and <ol>."
+        explanation: "Both <ol> (ordered) and <ul> (unordered) require <li> tags for their list items."
       },
       {
+        type: "builder",
         topic: "Adding Links",
-        question: "Which HTML tag is used to create a clickable link?",
-        options: [
-          "<a>",
-          "<link>",
-          "<href>",
-          "<url>"
-        ],
-        answer: 0,
-        explanation: "The <a> (anchor) tag is used to create hyperlinks."
+        badge: "Build the Tag",
+        question: "Assemble the HTML code to create a clickable link to https://google.com with the label: Search",
+        tokens: ["Search", "<a href=\"https://google.com\">", "</a>"],
+        correctOrder: ["<a href=\"https://google.com\">", "Search", "</a>"],
+        explanation: "An anchor tag starts with <a href=\"URL\">, followed by the clickable link text, and closes with </a>.",
+        previewHTML: "<a href='#' onclick='return false;' style='color:#2563eb;text-decoration:underline;'>Search</a>"
       },
       {
+        type: "mcq",
         topic: "Adding Links",
-        question: "Which attribute in the <a> tag specifies the destination web address (URL)?",
+        badge: "Bug Hunt",
+        question: "Priya wrote this link, and the word 'Wikipedia' shows up on the page, but clicking it does nothing! How do you fix it?",
+        code: "<a src=\"https://wikipedia.org\">Wikipedia</a>",
         options: [
-          "href",
-          "src",
-          "alt",
-          "link"
+          { text: "Change src to href", correct: true },
+          { text: "Change <a> to <link>", correct: false },
+          { text: "Change <a> to <url>", correct: false },
+          { text: "Add alt=\"Wikipedia\" inside <a>", correct: false }
         ],
-        answer: 0,
-        explanation: "The href attribute holds the URL, such as <a href=\"https://example.com\">Visit</a>."
+        explanation: "Links (<a>) use href (Hypertext Reference) for the destination URL—src is used for images (<img>)."
       },
       {
+        type: "fill",
         topic: "Adding Links",
-        question: "Which attribute makes a link open in a new browser tab?",
-        options: [
-          "target=\"_blank\"",
-          "target=\"_self\"",
-          "open=\"new\"",
-          "tab=\"new\""
-        ],
-        answer: 0,
-        explanation: "Adding target=\"_blank\" to an <a> tag opens the link in a new tab."
+        badge: "Complete the Code",
+        question: "Visitors complain that clicking your external help link navigates away from your website. Fill in the target value so it opens in a new browser tab:",
+        prefix: "<a href=\"https://example.com\" target=\"",
+        suffix: "\">Help</a>",
+        placeholder: "_value",
+        accepted: ["_blank"],
+        displayAnswer: "_blank",
+        explanation: "Setting target=\"_blank\" tells the browser to open the linked page in a new tab."
       },
       {
+        type: "mcq",
+        topic: "Adding Links",
+        badge: "Scenario Fix",
+        question: "Your website folder has two files side by side: index.html and contact.html. Which code links from index.html to contact.html?",
+        options: [
+          { text: "<a href=\"contact.html\">Contact Us</a>", isCode: true, correct: true },
+          { text: "<a href=\"contact\">Contact Us</a>", isCode: true, correct: false },
+          { text: "<link href=\"contact.html\">Contact Us</link>", isCode: true, correct: false },
+          { text: "<img href=\"contact.html\" alt=\"Contact Us\">", isCode: true, correct: false }
+        ],
+        explanation: "Relative links to another HTML file in the same folder need the exact filename including .html."
+      },
+      {
+        type: "mcq",
         topic: "Adding Images",
-        question: "Which HTML tag is used to embed an image on a web page?",
+        badge: "Bug Hunt",
+        question: "This image tag has THREE bugs preventing it from working properly. Which option fixes all of them?",
+        code: "<image href=\"dog.jpg\" text=\"Cute puppy\">",
         options: [
-          "<img>",
-          "<image>",
-          "<pic>",
-          "<photo>"
+          { text: "<img src=\"dog.jpg\" alt=\"Cute puppy\">", isCode: true, correct: true },
+          { text: "<pic src=\"dog.jpg\" alt=\"Cute puppy\">", isCode: true, correct: false },
+          { text: "<img href=\"dog.jpg\" title=\"Cute puppy\"></img>", isCode: true, correct: false },
+          { text: "<image src=\"dog.jpg\" alt=\"Cute puppy\">", isCode: true, correct: false }
         ],
-        answer: 0,
-        explanation: "The <img> tag is used to display images and is self-closing."
+        explanation: "Images use the self-closing <img> tag (not <image>), src for the file path (not href), and alt for fallback text."
       },
       {
+        type: "fill",
         topic: "Adding Images",
-        question: "Which two attributes are essential in an <img> tag for the file path and fallback description?",
+        badge: "Complete the Code",
+        question: "Fill in the missing attribute name that provides fallback text if the image fails to load (and helps screen readers):",
+        prefix: "<img src=\"sunset.jpg\" ",
+        suffix: "=\"Orange sunset\">",
+        placeholder: "attr",
+        accepted: ["alt"],
+        displayAnswer: "alt",
+        explanation: "The alt (alternative text) attribute describes the image when it cannot be displayed."
+      },
+      {
+        type: "builder",
+        topic: "Adding Images",
+        badge: "Build the Tag",
+        question: "Click the code blocks in the right order to display cat.png with fallback text 'Cat':",
+        tokens: ["alt=\"Cat\">", "<img", "src=\"cat.png\""],
+        correctOrder: ["<img", "src=\"cat.png\"", "alt=\"Cat\">"],
+        explanation: "An <img> tag opens with <img followed by its src and alt attributes and ends with > (no closing tag needed)."
+      },
+      {
+        type: "mcq",
+        topic: "Links + Images",
+        badge: "Boss Challenge",
+        question: "You want clicking on your site's logo image (logo.png) to take the user back to index.html. How do you combine <a> and <img> properly?",
         options: [
-          "src and alt",
-          "href and title",
-          "url and text",
-          "link and name"
+          { text: "<a href=\"index.html\"><img src=\"logo.png\" alt=\"Home\"></a>", isCode: true, correct: true },
+          { text: "<img src=\"logo.png\" href=\"index.html\" alt=\"Home\">", isCode: true, correct: false },
+          { text: "<a src=\"logo.png\" href=\"index.html\">Home</a>", isCode: true, correct: false },
+          { text: "<img src=\"logo.png\"><a href=\"index.html\"></a></img>", isCode: true, correct: false }
         ],
-        answer: 0,
-        explanation: "src specifies the image file path/URL, and alt provides alternative text if the image cannot load."
+        explanation: "Wrap the <img> element inside an <a href=\"...\">...</a> tag so the entire image becomes clickable!"
       }
     ];
 
     let currentIndex = 0;
     let score = 0;
     let userAnswers = [];
+    let selectedTokens = [];
 
     const progressBar = document.getElementById("progressBar");
     const questionCounter = document.getElementById("questionCounter");
@@ -569,47 +779,133 @@
     const quizBody = document.getElementById("quizBody");
 
     function escapeHTML(str) {
-      return str
+      return String(str)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function buildFeedbackHTML(q, isCorrect) {
+      let html = `<strong>${isCorrect ? "Spot on!" : "Not quite."}</strong> ${escapeHTML(q.explanation)}`;
+      if (q.previewHTML) {
+        html += `
+          <div class="browser-preview">
+            <div class="browser-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span style="margin-left:6px;">Mini Browser Preview &mdash; ${escapeHTML(q.previewTitle || "index.html")}</span>
+            </div>
+            <div class="browser-content">${q.previewHTML}</div>
+          </div>
+        `;
+      }
+      return html;
     }
 
     function renderQuestion() {
       const q = quizData[currentIndex];
-      const letters = ["A", "B", "C", "D"];
+      selectedTokens = [];
 
       progressBar.style.width = `${((currentIndex + 1) / quizData.length) * 100}%`;
-      questionCounter.textContent = `Question ${currentIndex + 1} of ${quizData.length}`;
+      questionCounter.textContent = `Challenge ${currentIndex + 1} of ${quizData.length}`;
       scoreCounter.textContent = `Score: ${score}`;
 
+      let interactiveArea = "";
+
+      if (q.type === "mcq") {
+        const letters = ["A", "B", "C", "D"];
+        const shuffledOptions = shuffleArray(q.options);
+        q._renderedOptions = shuffledOptions;
+
+        interactiveArea = `
+          ${q.code ? `<pre class="code-snippet">${escapeHTML(q.code)}</pre>` : ""}
+          <div class="options-list" id="optionsList">
+            ${shuffledOptions
+              .map(
+                (opt, idx) => `
+                <button class="option-btn" data-index="${idx}">
+                  <span class="option-letter">${letters[idx]}</span>
+                  <span class="${opt.isCode ? "option-code" : ""}">${escapeHTML(opt.text)}</span>
+                </button>
+              `
+              )
+              .join("")}
+          </div>
+        `;
+      } else if (q.type === "fill") {
+        interactiveArea = `
+          <div class="inline-code-editor">
+            <span>${escapeHTML(q.prefix)}</span>
+            <input type="text" id="codeInput" class="code-input" placeholder="${escapeHTML(q.placeholder)}" autocomplete="off" spellcheck="false" />
+            <span>${escapeHTML(q.suffix)}</span>
+          </div>
+          <div class="action-row">
+            <button class="primary-btn" id="checkFillBtn">Check Answer</button>
+          </div>
+        `;
+      } else if (q.type === "builder") {
+        const shuffledTokens = shuffleArray(q.tokens);
+        q._renderedTokens = shuffledTokens;
+
+        interactiveArea = `
+          <div class="builder-assembly" id="assemblyZone">
+            <span style="font-size:0.88rem;">Click the code blocks below in order...</span>
+          </div>
+          <div class="builder-tokens" id="tokenPool">
+            ${shuffledTokens
+              .map(
+                (tok, idx) => `
+                <button class="token-chip" data-tok-idx="${idx}">${escapeHTML(tok)}</button>
+              `
+              )
+              .join("")}
+          </div>
+          <div class="action-row">
+            <button class="secondary-btn" id="clearBuilderBtn">Reset Blocks</button>
+            <button class="primary-btn" id="checkBuilderBtn" disabled>Check Code</button>
+          </div>
+        `;
+      }
+
       quizBody.innerHTML = `
-        <span class="topic-badge">${escapeHTML(q.topic)}</span>
-        <div class="question-text">${currentIndex + 1}. ${escapeHTML(q.question)}</div>
-        <div class="options-list" id="optionsList">
-          ${q.options
-            .map(
-              (opt, idx) => `
-              <button class="option-btn" data-index="${idx}">
-                <span class="option-letter">${letters[idx]}</span>
-                <span>${escapeHTML(opt)}</span>
-              </button>
-            `
-            )
-            .join("")}
+        <div class="badge-row">
+          <span class="topic-badge">${escapeHTML(q.topic)}</span>
+          <span class="type-badge">${escapeHTML(q.badge)}</span>
         </div>
+        <div class="question-text">${currentIndex + 1}. ${escapeHTML(q.question).replace(/\n/g, "<br>")}</div>
+        ${interactiveArea}
         <div class="feedback-box" id="feedbackBox"></div>
         <div class="quiz-footer">
           <button class="primary-btn" id="nextBtn" disabled>
-            ${currentIndex === quizData.length - 1 ? "See Results" : "Next Question"}
+            ${currentIndex === quizData.length - 1 ? "See Final Results" : "Next Challenge"}
           </button>
         </div>
       `;
 
-      const optionButtons = quizBody.querySelectorAll(".option-btn");
-      optionButtons.forEach((btn) => {
-        btn.addEventListener("click", () => handleSelect(Number(btn.dataset.index)));
-      });
+      if (q.type === "mcq") {
+        quizBody.querySelectorAll(".option-btn").forEach((btn) => {
+          btn.addEventListener("click", () => handleMCQ(Number(btn.dataset.index)));
+        });
+      } else if (q.type === "fill") {
+        const inputEl = document.getElementById("codeInput");
+        const checkBtn = document.getElementById("checkFillBtn");
+        inputEl.focus();
+        checkBtn.addEventListener("click", handleFill);
+        inputEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && !checkBtn.disabled) handleFill();
+        });
+      } else if (q.type === "builder") {
+        setupBuilder(q);
+      }
 
       document.getElementById("nextBtn").addEventListener("click", () => {
         currentIndex++;
@@ -621,45 +917,143 @@
       });
     }
 
-    function handleSelect(selectedIdx) {
+    function handleMCQ(selectedIdx) {
       const q = quizData[currentIndex];
-      const optionButtons = quizBody.querySelectorAll(".option-btn");
-      const feedbackBox = document.getElementById("feedbackBox");
-      const nextBtn = document.getElementById("nextBtn");
+      const opts = q._renderedOptions;
+      const buttons = quizBody.querySelectorAll(".option-btn");
+      const isCorrect = opts[selectedIdx].correct;
+      const correctObj = opts.find((o) => o.correct);
 
-      const isCorrect = selectedIdx === q.answer;
       if (isCorrect) {
         score++;
         scoreCounter.textContent = `Score: ${score}`;
       }
 
       userAnswers.push({
-        question: q.question,
-        chosen: q.options[selectedIdx],
-        correct: q.options[q.answer],
+        question: q.question.split("\n")[0],
+        chosen: opts[selectedIdx].text,
+        correct: correctObj.text,
         isCorrect
       });
 
-      optionButtons.forEach((btn, idx) => {
+      buttons.forEach((btn, idx) => {
         btn.disabled = true;
-        if (idx === q.answer) {
+        if (opts[idx].correct) {
           btn.classList.add("correct");
         } else if (idx === selectedIdx && !isCorrect) {
           btn.classList.add("wrong");
         }
       });
 
+      const feedbackBox = document.getElementById("feedbackBox");
       feedbackBox.className = `feedback-box show ${isCorrect ? "correct-fb" : "wrong-fb"}`;
-      feedbackBox.textContent = `${isCorrect ? "Correct!" : "Not quite."} ${q.explanation}`;
-      nextBtn.disabled = false;
+      feedbackBox.innerHTML = buildFeedbackHTML(q, isCorrect);
+      document.getElementById("nextBtn").disabled = false;
+    }
+
+    function handleFill() {
+      const q = quizData[currentIndex];
+      const inputEl = document.getElementById("codeInput");
+      const checkBtn = document.getElementById("checkFillBtn");
+      const rawVal = inputEl.value.trim();
+      if (!rawVal) return;
+
+      const normalized = rawVal.toLowerCase();
+      const isCorrect = q.accepted.includes(normalized);
+
+      inputEl.disabled = true;
+      checkBtn.disabled = true;
+      inputEl.classList.add(isCorrect ? "correct-input" : "wrong-input");
+
+      if (isCorrect) {
+        score++;
+        scoreCounter.textContent = `Score: ${score}`;
+      } else {
+        inputEl.value = q.displayAnswer;
+      }
+
+      userAnswers.push({
+        question: q.question,
+        chosen: `${q.prefix}${rawVal}${q.suffix}`,
+        correct: `${q.prefix}${q.displayAnswer}${q.suffix}`,
+        isCorrect
+      });
+
+      const feedbackBox = document.getElementById("feedbackBox");
+      feedbackBox.className = `feedback-box show ${isCorrect ? "correct-fb" : "wrong-fb"}`;
+      feedbackBox.innerHTML = buildFeedbackHTML(q, isCorrect);
+      document.getElementById("nextBtn").disabled = false;
+    }
+
+    function setupBuilder(q) {
+      const assemblyZone = document.getElementById("assemblyZone");
+      const tokenButtons = quizBody.querySelectorAll(".token-chip");
+      const clearBtn = document.getElementById("clearBuilderBtn");
+      const checkBtn = document.getElementById("checkBuilderBtn");
+
+      function refreshAssembly() {
+        if (selectedTokens.length === 0) {
+          assemblyZone.innerHTML = `<span style="font-size:0.88rem;">Click the code blocks below in order...</span>`;
+          checkBtn.disabled = true;
+        } else {
+          assemblyZone.innerHTML = selectedTokens
+            .map((item) => `<span class="assembled-chip">${escapeHTML(item.text)}</span>`)
+            .join("");
+          checkBtn.disabled = selectedTokens.length !== q.correctOrder.length;
+        }
+      }
+
+      tokenButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const idx = Number(btn.dataset.tokIdx);
+          btn.disabled = true;
+          selectedTokens.push({ idx, text: q._renderedTokens[idx] });
+          refreshAssembly();
+        });
+      });
+
+      clearBtn.addEventListener("click", () => {
+        selectedTokens = [];
+        tokenButtons.forEach((b) => (b.disabled = false));
+        refreshAssembly();
+      });
+
+      checkBtn.addEventListener("click", () => {
+        clearBtn.disabled = true;
+        checkBtn.disabled = true;
+        tokenButtons.forEach((b) => (b.disabled = true));
+
+        const userSeq = selectedTokens.map((t) => t.text);
+        const isCorrect = JSON.stringify(userSeq) === JSON.stringify(q.correctOrder);
+
+        assemblyZone.style.borderStyle = "solid";
+        assemblyZone.style.borderColor = isCorrect ? "#22c55e" : "#ef4444";
+
+        if (isCorrect) {
+          score++;
+          scoreCounter.textContent = `Score: ${score}`;
+        }
+
+        userAnswers.push({
+          question: q.question,
+          chosen: userSeq.join(" "),
+          correct: q.correctOrder.join(" "),
+          isCorrect
+        });
+
+        const feedbackBox = document.getElementById("feedbackBox");
+        feedbackBox.className = `feedback-box show ${isCorrect ? "correct-fb" : "wrong-fb"}`;
+        feedbackBox.innerHTML = buildFeedbackHTML(q, isCorrect);
+        document.getElementById("nextBtn").disabled = false;
+      });
     }
 
     function showResults() {
       const percentage = Math.round((score / quizData.length) * 100);
-      let message = "Keep practicing the basic HTML tags and try again!";
-      if (percentage >= 90) message = "Outstanding! You have mastered basic HTML tags up to links and images.";
-      else if (percentage >= 70) message = "Great job! You have a solid understanding of basic HTML tags.";
-      else if (percentage >= 50) message = "Good effort! Review the missed tags below and try again.";
+      let message = "Good start! Review the solutions below and try building the tags again.";
+      if (percentage >= 90) message = "Outstanding! You can read, debug, and write core HTML tags up to links and images.";
+      else if (percentage >= 70) message = "Great work! You have strong hands-on HTML problem-solving skills.";
+      else if (percentage >= 50) message = "Solid effort! Check the missed bugs below and give it another run.";
 
       quizBody.innerHTML = `
         <div class="result-screen">
@@ -667,9 +1061,9 @@
             <span class="score-num">${score}/${quizData.length}</span>
             <span class="score-total">${percentage}%</span>
           </div>
-          <h2 class="result-title">Quiz Completed!</h2>
+          <h2 class="result-title">Lab Completed!</h2>
           <p class="result-msg">${message}</p>
-          <button class="primary-btn" id="restartBtn">Restart Quiz</button>
+          <button class="primary-btn" id="restartBtn">Play Again (New Shuffle)</button>
 
           <div class="review-list">
             ${userAnswers
@@ -677,11 +1071,11 @@
                 (item, i) => `
                 <div class="review-item ${item.isCorrect ? "ok" : "bad"}">
                   <strong>Q${i + 1}:</strong> ${escapeHTML(item.question)}<br />
-                  <span>Your answer: <code>${escapeHTML(item.chosen)}</code></span>
+                  <span>Your answer: <code class="inline">${escapeHTML(item.chosen)}</code></span>
                   ${
                     item.isCorrect
                       ? " &mdash; <strong>Correct</strong>"
-                      : `<br /><span>Correct answer: <code>${escapeHTML(item.correct)}</code></span>`
+                      : `<br /><span>Solution: <code class="inline">${escapeHTML(item.correct)}</code></span>`
                   }
                 </div>
               `
