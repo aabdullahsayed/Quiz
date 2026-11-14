@@ -1,494 +1,705 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 10 Physics – Electrical Circuits</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --accent: #00ffcc;
-            --accent-hover: #00b38f;
-            --border-color: #333;
-            --correct: #4caf50;
-            --incorrect: #f44336;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Courier New', Courier, monospace;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-        }
-        h1, h2, h3 {
-            text-transform: uppercase;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 5px;
-            margin-bottom: 20px;
-        }
-        .section-title {
-            margin-top: 40px;
-            color: var(--accent);
-        }
-        .question-card {
-            background: #1e1e1e;
-            border: 2px solid var(--border-color);
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            box-shadow: 4px 4px 0px var(--accent);
-        }
-        .options {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 15px;
-        }
-        .options li {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .options li:hover {
-            border-color: var(--accent);
-        }
-        .options input {
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        .submit-btn {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-family: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 4px 4px 0px #fff;
-            transition: transform 0.1s, box-shadow 0.1s;
-            display: block;
-            width: 100%;
-            margin-top: 30px;
-        }
-        .submit-btn:active {
-            transform: translate(4px, 4px);
-            box-shadow: 0px 0px 0px #fff;
-        }
-        #results {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            background: #1e1e1e;
-            border: 2px dashed var(--accent);
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .correct-ans {
-            background: rgba(76, 175, 80, 0.2);
-            border-color: var(--correct) !important;
-        }
-        .wrong-ans {
-            background: rgba(244, 67, 54, 0.2);
-            border-color: var(--incorrect) !important;
-        }
-        .status-indicator {
-            font-weight: bold;
-            float: right;
-        }
-        .svg-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: #0a0a0a;
-            border: 1px solid var(--border-color);
-        }
-        svg text {
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-        }
-        .formula-sheet {
-            background: #1e1e1e;
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-        .formula-sheet table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .formula-sheet th, .formula-sheet td {
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            text-align: left;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic HTML Tags Quiz (Up to Links & Images)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .quiz-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 680px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(30, 41, 59, 0.12);
+      overflow: hidden;
+    }
+
+    .quiz-header {
+      background: #2563eb;
+      color: #ffffff;
+      padding: 24px 28px;
+    }
+
+    .quiz-header h1 {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+
+    .quiz-header p {
+      font-size: 0.92rem;
+      opacity: 0.9;
+    }
+
+    .progress-bar-wrap {
+      background: rgba(255, 255, 255, 0.25);
+      height: 8px;
+      border-radius: 999px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      background: #fde047;
+      height: 100%;
+      width: 5%;
+      transition: width 0.3s ease;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .quiz-body {
+      padding: 28px;
+    }
+
+    .topic-badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      line-height: 1.45;
+    }
+
+    code {
+      background: #f1f5f9;
+      color: #be123c;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.95em;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-btn.correct {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #14532d;
+      font-weight: 600;
+    }
+
+    .option-btn.wrong {
+      background: #fee2e2;
+      border-color: #dc2626;
+      color: #7f1d1d;
+    }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .option-btn.correct .option-letter {
+      background: #16a34a;
+      color: #ffffff;
+    }
+
+    .option-btn.wrong .option-letter {
+      background: #dc2626;
+      color: #ffffff;
+    }
+
+    .feedback-box {
+      margin-top: 18px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.94rem;
+      line-height: 1.45;
+      display: none;
+    }
+
+    .feedback-box.show {
+      display: block;
+    }
+
+    .feedback-box.correct-fb {
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      color: #166534;
+    }
+
+    .feedback-box.wrong-fb {
+      background: #fef2f2;
+      border-left: 4px solid #dc2626;
+      color: #991b1b;
+    }
+
+    .quiz-footer {
+      margin-top: 24px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .primary-btn {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .primary-btn:hover:not(:disabled) {
+      background: #1d4ed8;
+    }
+
+    .primary-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .result-screen {
+      text-align: center;
+      padding: 12px 0;
+    }
+
+    .score-circle {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: #eff6ff;
+      border: 6px solid #2563eb;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 20px;
+    }
+
+    .score-circle .score-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1d4ed8;
+    }
+
+    .score-circle .score-total {
+      font-size: 0.9rem;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .result-title {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .result-msg {
+      color: #475569;
+      margin-bottom: 24px;
+      font-size: 1rem;
+    }
+
+    .review-list {
+      text-align: left;
+      margin-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 20px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .review-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      background: #f8fafc;
+      border-left: 4px solid #cbd5e1;
+    }
+
+    .review-item.ok {
+      border-left-color: #16a34a;
+    }
+
+    .review-item.bad {
+      border-left-color: #dc2626;
+    }
+  </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Electrical Circuits MCQ Practice</h1>
-    <p><strong>Level:</strong> Beginner to Intermediate | <strong>Marks:</strong> 20</p>
-    
-    <div class="formula-sheet">
-        <h3>Formula Sheet</h3>
-        <table>
-            <tr><th>Quantity</th><th>Formula</th></tr>
-            <tr><td>Voltage</td><td>V = I × R</td></tr>
-            <tr><td>Current</td><td>I = V / R</td></tr>
-            <tr><td>Resistance</td><td>R = V / I</td></tr>
-            <tr><td>Series resistance</td><td>R_T = R_1 + R_2 + ...</td></tr>
-            <tr><td>Parallel resistance (2)</td><td>R_T = (R_1 × R_2) / (R_1 + R_2)</td></tr>
-        </table>
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <h1>Basic HTML Tags Quiz</h1>
+      <p>Easy Level &bull; 20 Questions (Structure, Text, Lists, Links &amp; Images)</p>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+      <div class="status-row">
+        <span id="questionCounter">Question 1 of 20</span>
+        <span id="scoreCounter">Score: 0</span>
+      </div>
     </div>
 
-    <form id="quizForm">
-        <!-- SECTION A -->
-        <h2 class="section-title">Section A: Basic Electrical Calculations</h2>
-        
-        <div class="question-card" id="card-1">
-            <p><strong>1. A resistor has a resistance of 5 Ω and a current of 2 A. What is the voltage?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q1" value="A"> A. 2 V</label></li>
-                <li><label><input type="radio" name="q1" value="B"> B. 5 V</label></li>
-                <li><label><input type="radio" name="q1" value="C"> C. 10 V</label></li>
-                <li><label><input type="radio" name="q1" value="D"> D. 20 V</label></li>
-            </ul>
+    <div class="quiz-body" id="quizBody">
+      <span class="topic-badge" id="topicBadge">HTML Basics</span>
+      <div class="question-text" id="questionText"></div>
+      <div class="options-list" id="optionsList"></div>
+      <div class="feedback-box" id="feedbackBox"></div>
+      <div class="quiz-footer">
+        <button class="primary-btn" id="nextBtn" disabled>Next Question</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        topic: "HTML Basics",
+        question: "What does HTML stand for?",
+        options: [
+          "Hyper Text Markup Language",
+          "High Tech Modern Language",
+          "Home Tool Markup Language",
+          "Hyperlink and Text Management Language"
+        ],
+        answer: 0,
+        explanation: "HTML stands for Hyper Text Markup Language, the standard language for creating web pages."
+      },
+      {
+        topic: "Document Structure",
+        question: "Which declaration defines that a document is an HTML5 page?",
+        options: [
+          "<!DOCTYPE html>",
+          "<html5>",
+          "<!HTML>",
+          "<doctype>"
+        ],
+        answer: 0,
+        explanation: "<!DOCTYPE html> is placed at the very top of the file to tell the browser this is an HTML5 document."
+      },
+      {
+        topic: "Document Structure",
+        question: "Which tag is the root element that wraps all content on an HTML page?",
+        options: [
+          "<html>",
+          "<head>",
+          "<body>",
+          "<page>"
+        ],
+        answer: 0,
+        explanation: "The <html> tag is the root container for the entire HTML document."
+      },
+      {
+        topic: "Document Structure",
+        question: "Where should the <title> tag be placed in an HTML file?",
+        options: [
+          "Inside the <head> tag",
+          "Inside the <body> tag",
+          "Inside the <h1> tag",
+          "After the </html> tag"
+        ],
+        answer: 0,
+        explanation: "The <title> tag goes inside <head> and sets the title shown on the browser tab."
+      },
+      {
+        topic: "Document Structure",
+        question: "Which tag holds all the visible content of a web page (headings, text, links, images)?",
+        options: [
+          "<body>",
+          "<head>",
+          "<title>",
+          "<meta>"
+        ],
+        answer: 0,
+        explanation: "Everything visible on the web page goes inside the <body> element."
+      },
+      {
+        topic: "Headings",
+        question: "Which HTML tag creates the largest and most important heading?",
+        options: [
+          "<h1>",
+          "<h6>",
+          "<head>",
+          "<heading>"
+        ],
+        answer: 0,
+        explanation: "<h1> defines the main (largest) heading, while <h6> defines the smallest heading."
+      },
+      {
+        topic: "Headings",
+        question: "Which HTML tag defines the smallest heading level?",
+        options: [
+          "<h6>",
+          "<h1>",
+          "<h3>",
+          "<small>"
+        ],
+        answer: 0,
+        explanation: "HTML headings range from <h1> (largest) down to <h6> (smallest)."
+      },
+      {
+        topic: "Paragraphs & Breaks",
+        question: "Which tag is used to create a paragraph in HTML?",
+        options: [
+          "<p>",
+          "<para>",
+          "<pg>",
+          "<text>"
+        ],
+        answer: 0,
+        explanation: "The <p> tag defines a paragraph and automatically adds space before and after it."
+      },
+      {
+        topic: "Paragraphs & Breaks",
+        question: "Which empty tag inserts a single line break without starting a new paragraph?",
+        options: [
+          "<br>",
+          "<lb>",
+          "<break>",
+          "<hr>"
+        ],
+        answer: 0,
+        explanation: "<br> creates a line break and does not require a closing tag."
+      },
+      {
+        topic: "Paragraphs & Breaks",
+        question: "Which tag draws a horizontal line across the web page?",
+        options: [
+          "<hr>",
+          "<line>",
+          "<br>",
+          "<hl>"
+        ],
+        answer: 0,
+        explanation: "The <hr> (horizontal rule) tag creates a horizontal divider line."
+      },
+      {
+        topic: "Text Formatting",
+        question: "Which tag is used to make text bold?",
+        options: [
+          "<b>",
+          "<bold>",
+          "<i>",
+          "<u>"
+        ],
+        answer: 0,
+        explanation: "The <b> tag (or <strong>) displays text in bold."
+      },
+      {
+        topic: "Text Formatting",
+        question: "Which tag displays text in italics?",
+        options: [
+          "<i>",
+          "<italic>",
+          "<b>",
+          "<ul>"
+        ],
+        answer: 0,
+        explanation: "The <i> tag (or <em>) formats text in italics."
+      },
+      {
+        topic: "Text Formatting",
+        question: "Which tag is used to underline text in HTML?",
+        options: [
+          "<u>",
+          "<underline>",
+          "<ul_text>",
+          "<line>"
+        ],
+        answer: 0,
+        explanation: "The <u> tag underlines the enclosed text."
+      },
+      {
+        topic: "Lists",
+        question: "Which tag creates a bulleted (unordered) list?",
+        options: [
+          "<ul>",
+          "<ol>",
+          "<li>",
+          "<list>"
+        ],
+        answer: 0,
+        explanation: "<ul> stands for unordered list and displays items with bullets."
+      },
+      {
+        topic: "Lists",
+        question: "Which tag defines each item inside a <ul> or <ol> list?",
+        options: [
+          "<li>",
+          "<ul>",
+          "<ol>",
+          "<item>"
+        ],
+        answer: 0,
+        explanation: "<li> stands for list item and is used inside both <ul> and <ol>."
+      },
+      {
+        topic: "Adding Links",
+        question: "Which HTML tag is used to create a clickable link?",
+        options: [
+          "<a>",
+          "<link>",
+          "<href>",
+          "<url>"
+        ],
+        answer: 0,
+        explanation: "The <a> (anchor) tag is used to create hyperlinks."
+      },
+      {
+        topic: "Adding Links",
+        question: "Which attribute in the <a> tag specifies the destination web address (URL)?",
+        options: [
+          "href",
+          "src",
+          "alt",
+          "link"
+        ],
+        answer: 0,
+        explanation: "The href attribute holds the URL, such as <a href=\"https://example.com\">Visit</a>."
+      },
+      {
+        topic: "Adding Links",
+        question: "Which attribute makes a link open in a new browser tab?",
+        options: [
+          "target=\"_blank\"",
+          "target=\"_self\"",
+          "open=\"new\"",
+          "tab=\"new\""
+        ],
+        answer: 0,
+        explanation: "Adding target=\"_blank\" to an <a> tag opens the link in a new tab."
+      },
+      {
+        topic: "Adding Images",
+        question: "Which HTML tag is used to embed an image on a web page?",
+        options: [
+          "<img>",
+          "<image>",
+          "<pic>",
+          "<photo>"
+        ],
+        answer: 0,
+        explanation: "The <img> tag is used to display images and is self-closing."
+      },
+      {
+        topic: "Adding Images",
+        question: "Which two attributes are essential in an <img> tag for the file path and fallback description?",
+        options: [
+          "src and alt",
+          "href and title",
+          "url and text",
+          "link and name"
+        ],
+        answer: 0,
+        explanation: "src specifies the image file path/URL, and alt provides alternative text if the image cannot load."
+      }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    let userAnswers = [];
+
+    const progressBar = document.getElementById("progressBar");
+    const questionCounter = document.getElementById("questionCounter");
+    const scoreCounter = document.getElementById("scoreCounter");
+    const quizBody = document.getElementById("quizBody");
+
+    function escapeHTML(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function renderQuestion() {
+      const q = quizData[currentIndex];
+      const letters = ["A", "B", "C", "D"];
+
+      progressBar.style.width = `${((currentIndex + 1) / quizData.length) * 100}%`;
+      questionCounter.textContent = `Question ${currentIndex + 1} of ${quizData.length}`;
+      scoreCounter.textContent = `Score: ${score}`;
+
+      quizBody.innerHTML = `
+        <span class="topic-badge">${escapeHTML(q.topic)}</span>
+        <div class="question-text">${currentIndex + 1}. ${escapeHTML(q.question)}</div>
+        <div class="options-list" id="optionsList">
+          ${q.options
+            .map(
+              (opt, idx) => `
+              <button class="option-btn" data-index="${idx}">
+                <span class="option-letter">${letters[idx]}</span>
+                <span>${escapeHTML(opt)}</span>
+              </button>
+            `
+            )
+            .join("")}
         </div>
-
-        <div class="question-card" id="card-2">
-            <p><strong>2. A 12 V battery is connected to a 4 Ω resistor. Find the current.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q2" value="A"> A. 2 A</label></li>
-                <li><label><input type="radio" name="q2" value="B"> B. 3 A</label></li>
-                <li><label><input type="radio" name="q2" value="C"> C. 4 A</label></li>
-                <li><label><input type="radio" name="q2" value="D"> D. 48 A</label></li>
-            </ul>
+        <div class="feedback-box" id="feedbackBox"></div>
+        <div class="quiz-footer">
+          <button class="primary-btn" id="nextBtn" disabled>
+            ${currentIndex === quizData.length - 1 ? "See Results" : "Next Question"}
+          </button>
         </div>
+      `;
 
-        <div class="question-card" id="card-3">
-            <p><strong>3. A circuit has a voltage of 24 V and current of 3 A. Find its resistance.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q3" value="A"> A. 6 Ω</label></li>
-                <li><label><input type="radio" name="q3" value="B"> B. 8 Ω</label></li>
-                <li><label><input type="radio" name="q3" value="C"> C. 12 Ω</label></li>
-                <li><label><input type="radio" name="q3" value="D"> D. 72 Ω</label></li>
-            </ul>
-        </div>
+      const optionButtons = quizBody.querySelectorAll(".option-btn");
+      optionButtons.forEach((btn) => {
+        btn.addEventListener("click", () => handleSelect(Number(btn.dataset.index)));
+      });
 
-        <div class="question-card" id="card-4">
-            <p><strong>4. A 10 Ω resistor is connected to a 20 V supply. What is the current?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q4" value="A"> A. 0.5 A</label></li>
-                <li><label><input type="radio" name="q4" value="B"> B. 1 A</label></li>
-                <li><label><input type="radio" name="q4" value="C"> C. 2 A</label></li>
-                <li><label><input type="radio" name="q4" value="D"> D. 10 A</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-5">
-            <p><strong>5. A current of 0.5 A flows through a 20 Ω resistor. Find the voltage.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q5" value="A"> A. 5 V</label></li>
-                <li><label><input type="radio" name="q5" value="B"> B. 10 V</label></li>
-                <li><label><input type="radio" name="q5" value="C"> C. 20 V</label></li>
-                <li><label><input type="radio" name="q5" value="D"> D. 40 V</label></li>
-            </ul>
-        </div>
-
-        <!-- SECTION B -->
-        <h2 class="section-title">Section B: Series Circuits</h2>
-        
-        <div class="svg-container">
-            <!-- SVG Series Circuit -->
-            <svg width="300" height="150" viewBox="0 0 300 150" stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Battery -->
-                <line x1="50" y1="65" x2="50" y2="85" stroke-width="5"/>
-                <line x1="40" y1="50" x2="40" y2="100" stroke-width="2"/>
-                <text x="15" y="80" fill="var(--text-color)" stroke="none" font-size="14">V</text>
-                <!-- Wires -->
-                <path d="M 45 50 L 45 20 L 100 20" />
-                <path d="M 45 100 L 45 130 L 250 130 L 250 20 L 220 20" />
-                <path d="M 140 20 L 180 20" />
-                <!-- Resistor 1 (Zigzag) -->
-                <path d="M 100 20 l 5 -10 l 10 20 l 10 -20 l 10 20 l 5 -10" />
-                <text x="110" y="55" fill="var(--text-color)" stroke="none" font-size="14">R1</text>
-                <!-- Resistor 2 (Zigzag) -->
-                <path d="M 180 20 l 5 -10 l 10 20 l 10 -20 l 10 20 l 5 -10" />
-                <text x="190" y="55" fill="var(--text-color)" stroke="none" font-size="14">R2</text>
-            </svg>
-        </div>
-
-        <div class="question-card" id="card-6">
-            <p><strong>6. Two resistors of 3 Ω and 5 Ω are connected in series. What is the total resistance?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q6" value="A"> A. 2 Ω</label></li>
-                <li><label><input type="radio" name="q6" value="B"> B. 8 Ω</label></li>
-                <li><label><input type="radio" name="q6" value="C"> C. 15 Ω</label></li>
-                <li><label><input type="radio" name="q6" value="D"> D. 1.875 Ω</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-7">
-            <p><strong>7. Two resistors of 4 Ω and 6 Ω are connected in series with a 20 V battery. Find the circuit current.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q7" value="A"> A. 1 A</label></li>
-                <li><label><input type="radio" name="q7" value="B"> B. 2 A</label></li>
-                <li><label><input type="radio" name="q7" value="C"> C. 4 A</label></li>
-                <li><label><input type="radio" name="q7" value="D"> D. 10 A</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-8">
-            <p><strong>8. Three resistors of 2 Ω, 3 Ω and 5 Ω are connected in series. Find the total resistance.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q8" value="A"> A. 5 Ω</label></li>
-                <li><label><input type="radio" name="q8" value="B"> B. 8 Ω</label></li>
-                <li><label><input type="radio" name="q8" value="C"> C. 10 Ω</label></li>
-                <li><label><input type="radio" name="q8" value="D"> D. 30 Ω</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-9">
-            <p><strong>9. Two resistors of 2 Ω and 4 Ω are connected in series to a 12 V battery. What is the voltage across the 2 Ω resistor?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q9" value="A"> A. 2 V</label></li>
-                <li><label><input type="radio" name="q9" value="B"> B. 4 V</label></li>
-                <li><label><input type="radio" name="q9" value="C"> C. 6 V</label></li>
-                <li><label><input type="radio" name="q9" value="D"> D. 8 V</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-10">
-            <p><strong>10. Three resistors are connected in series. Their resistances are 2 Ω, 4 Ω and 6 Ω. If the circuit current is 2 A, what is the supply voltage?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q10" value="A"> A. 12 V</label></li>
-                <li><label><input type="radio" name="q10" value="B"> B. 18 V</label></li>
-                <li><label><input type="radio" name="q10" value="C"> C. 24 V</label></li>
-                <li><label><input type="radio" name="q10" value="D"> D. 36 V</label></li>
-            </ul>
-        </div>
-
-        <!-- SECTION C -->
-        <h2 class="section-title">Section C: Parallel Circuits</h2>
-
-        <div class="svg-container">
-            <!-- SVG Parallel Circuit -->
-            <svg width="300" height="200" viewBox="0 0 300 200" stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Battery -->
-                <line x1="50" y1="90" x2="50" y2="110" stroke-width="5"/>
-                <line x1="40" y1="75" x2="40" y2="125" stroke-width="2"/>
-                <text x="15" y="105" fill="var(--text-color)" stroke="none" font-size="14">V</text>
-                <!-- Outer Wires -->
-                <path d="M 45 75 L 45 40 L 130 40" />
-                <path d="M 45 125 L 45 160 L 130 160" />
-                <path d="M 170 40 L 250 40 L 250 160 L 170 160" />
-                <!-- Middle Junction Wire -->
-                <path d="M 150 40 L 150 20 L 150 40" />
-                
-                <!-- Resistor 1 (Top Parallel Branch) -->
-                <path d="M 130 40 l 5 -10 l 10 20 l 10 -20 l 10 20 l 5 -10" />
-                <text x="140" y="25" fill="var(--text-color)" stroke="none" font-size="14">R1</text>
-                
-                <!-- Resistor 2 (Bottom Parallel Branch) -->
-                <path d="M 130 160 l 5 -10 l 10 20 l 10 -20 l 10 20 l 5 -10" />
-                <text x="140" y="145" fill="var(--text-color)" stroke="none" font-size="14">R2</text>
-                
-                <!-- Inner Vertical Connectors -->
-                <line x1="100" y1="40" x2="100" y2="160" />
-                <line x1="200" y1="40" x2="200" y2="160" />
-            </svg>
-        </div>
-
-        <div class="question-card" id="card-11">
-            <p><strong>11. Two resistors of 6 Ω and 3 Ω are connected in parallel. Find the equivalent resistance.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q11" value="A"> A. 9 Ω</label></li>
-                <li><label><input type="radio" name="q11" value="B"> B. 3 Ω</label></li>
-                <li><label><input type="radio" name="q11" value="C"> C. 2 Ω</label></li>
-                <li><label><input type="radio" name="q11" value="D"> D. 18 Ω</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-12">
-            <p><strong>12. Two resistors of 4 Ω and 4 Ω are connected in parallel. What is their total resistance?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q12" value="A"> A. 8 Ω</label></li>
-                <li><label><input type="radio" name="q12" value="B"> B. 4 Ω</label></li>
-                <li><label><input type="radio" name="q12" value="C"> C. 2 Ω</label></li>
-                <li><label><input type="radio" name="q12" value="D"> D. 16 Ω</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-13">
-            <p><strong>13. Two resistors of 6 Ω and 12 Ω are connected in parallel across a 12 V battery. Find the current through the 6 Ω resistor.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q13" value="A"> A. 1 A</label></li>
-                <li><label><input type="radio" name="q13" value="B"> B. 2 A</label></li>
-                <li><label><input type="radio" name="q13" value="C"> C. 3 A</label></li>
-                <li><label><input type="radio" name="q13" value="D"> D. 6 A</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-14">
-            <p><strong>14. Two resistors of 3 Ω and 6 Ω are connected in parallel across a 12 V supply. What is the total current?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q14" value="A"> A. 2 A</label></li>
-                <li><label><input type="radio" name="q14" value="B"> B. 4 A</label></li>
-                <li><label><input type="radio" name="q14" value="C"> C. 6 A</label></li>
-                <li><label><input type="radio" name="q14" value="D"> D. 9 A</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-15">
-            <p><strong>15. Three resistors of 2 Ω, 2 Ω and 2 Ω are connected in parallel. Find the equivalent resistance.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q15" value="A"> A. 6 Ω</label></li>
-                <li><label><input type="radio" name="q15" value="B"> B. 3 Ω</label></li>
-                <li><label><input type="radio" name="q15" value="C"> C. 2 Ω</label></li>
-                <li><label><input type="radio" name="q15" value="D"> D. 0.67 Ω</label></li>
-            </ul>
-        </div>
-
-        <!-- SECTION D -->
-        <h2 class="section-title">Section D: Mixed Circuit Problems</h2>
-
-        <div class="question-card" id="card-16">
-            <p><strong>16. A 2 Ω resistor is connected in series with a 4 Ω resistor. The supply voltage is 12 V. Find the current.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q16" value="A"> A. 1 A</label></li>
-                <li><label><input type="radio" name="q16" value="B"> B. 2 A</label></li>
-                <li><label><input type="radio" name="q16" value="C"> C. 3 A</label></li>
-                <li><label><input type="radio" name="q16" value="D"> D. 6 A</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-17">
-            <p><strong>17. A 4 Ω resistor is connected in series with a parallel combination of two 4 Ω resistors. What is the total resistance?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q17" value="A"> A. 2 Ω</label></li>
-                <li><label><input type="radio" name="q17" value="B"> B. 4 Ω</label></li>
-                <li><label><input type="radio" name="q17" value="C"> C. 6 Ω</label></li>
-                <li><label><input type="radio" name="q17" value="D"> D. 8 Ω</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-18">
-            <p><strong>18. A 12 V battery is connected to two parallel resistors of 6 Ω and 3 Ω. Find the total current supplied by the battery.</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q18" value="A"> A. 2 A</label></li>
-                <li><label><input type="radio" name="q18" value="B"> B. 4 A</label></li>
-                <li><label><input type="radio" name="q18" value="C"> C. 6 A</label></li>
-                <li><label><input type="radio" name="q18" value="D"> D. 9 A</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-19">
-            <p><strong>19. A series circuit has a total resistance of 10 Ω and a supply voltage of 50 V. What is the current?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q19" value="A"> A. 2 A</label></li>
-                <li><label><input type="radio" name="q19" value="B"> B. 5 A</label></li>
-                <li><label><input type="radio" name="q19" value="C"> C. 10 A</label></li>
-                <li><label><input type="radio" name="q19" value="D"> D. 500 A</label></li>
-            </ul>
-        </div>
-
-        <div class="question-card" id="card-20">
-            <p><strong>20. A parallel circuit has a total current of 6 A. One branch carries 2 A. How much current flows through the other branch?</strong></p>
-            <ul class="options">
-                <li><label><input type="radio" name="q20" value="A"> A. 2 A</label></li>
-                <li><label><input type="radio" name="q20" value="B"> B. 3 A</label></li>
-                <li><label><input type="radio" name="q20" value="C"> C. 4 A</label></li>
-                <li><label><input type="radio" name="q20" value="D"> D. 8 A</label></li>
-            </ul>
-        </div>
-
-        <button type="submit" class="submit-btn">Submit & Check Marks</button>
-    </form>
-
-    <div id="results"></div>
-
-</div>
-
-<script>
-    // Correct Answers Key
-    const correctAnswers = {
-        q1: 'C', q2: 'B', q3: 'B', q4: 'C', q5: 'B',
-        q6: 'B', q7: 'B', q8: 'C', q9: 'B', q10: 'C',
-        q11: 'C', q12: 'C', q13: 'B', q14: 'C', q15: 'D',
-        q16: 'B', q17: 'C', q18: 'C', q19: 'B', q20: 'C'
-    };
-
-    document.getElementById('quizForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        let score = 0;
-        const total = Object.keys(correctAnswers).length;
-
-        // Reset previous styles
-        document.querySelectorAll('.options li').forEach(li => {
-            li.classList.remove('correct-ans', 'wrong-ans');
-            const indicator = li.querySelector('.status-indicator');
-            if (indicator) indicator.remove();
-        });
-
-        // Grade form
-        const formData = new FormData(this);
-        
-        for (let i = 1; i <= total; i++) {
-            const questionName = 'q' + i;
-            const userAnswer = formData.get(questionName);
-            const correctAnswer = correctAnswers[questionName];
-            
-            const card = document.getElementById('card-' + i);
-            const options = card.querySelectorAll('input[type="radio"]');
-            
-            options.forEach(opt => {
-                const li = opt.closest('li');
-                
-                // Highlight the correct answer regardless of user choice
-                if (opt.value === correctAnswer) {
-                    li.classList.add('correct-ans');
-                    li.innerHTML += ' <span class="status-indicator" style="color: var(--correct);">✓ Correct Answer</span>';
-                }
-                
-                // Check if user selected this option
-                if (opt.checked) {
-                    if (userAnswer === correctAnswer) {
-                        score++;
-                    } else {
-                        li.classList.remove('correct-ans');
-                        li.classList.add('wrong-ans');
-                        li.innerHTML += ' <span class="status-indicator" style="color: var(--incorrect);">✗ Your Answer</span>';
-                    }
-                }
-                
-                // Disable inputs after submit
-                opt.disabled = true;
-            });
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        currentIndex++;
+        if (currentIndex < quizData.length) {
+          renderQuestion();
+        } else {
+          showResults();
         }
+      });
+    }
 
-        // Display Results
-        const resultsDiv = document.getElementById('results');
-        resultsDiv.style.display = 'block';
-        resultsDiv.innerHTML = `Your Score: <span style="color: ${score >= 10 ? 'var(--correct)' : 'var(--incorrect)'}">${score} / ${total}</span>`;
-        resultsDiv.scrollIntoView({ behavior: 'smooth' });
-    });
-</script>
+    function handleSelect(selectedIdx) {
+      const q = quizData[currentIndex];
+      const optionButtons = quizBody.querySelectorAll(".option-btn");
+      const feedbackBox = document.getElementById("feedbackBox");
+      const nextBtn = document.getElementById("nextBtn");
 
+      const isCorrect = selectedIdx === q.answer;
+      if (isCorrect) {
+        score++;
+        scoreCounter.textContent = `Score: ${score}`;
+      }
+
+      userAnswers.push({
+        question: q.question,
+        chosen: q.options[selectedIdx],
+        correct: q.options[q.answer],
+        isCorrect
+      });
+
+      optionButtons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.answer) {
+          btn.classList.add("correct");
+        } else if (idx === selectedIdx && !isCorrect) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      feedbackBox.className = `feedback-box show ${isCorrect ? "correct-fb" : "wrong-fb"}`;
+      feedbackBox.textContent = `${isCorrect ? "Correct!" : "Not quite."} ${q.explanation}`;
+      nextBtn.disabled = false;
+    }
+
+    function showResults() {
+      const percentage = Math.round((score / quizData.length) * 100);
+      let message = "Keep practicing the basic HTML tags and try again!";
+      if (percentage >= 90) message = "Outstanding! You have mastered basic HTML tags up to links and images.";
+      else if (percentage >= 70) message = "Great job! You have a solid understanding of basic HTML tags.";
+      else if (percentage >= 50) message = "Good effort! Review the missed tags below and try again.";
+
+      quizBody.innerHTML = `
+        <div class="result-screen">
+          <div class="score-circle">
+            <span class="score-num">${score}/${quizData.length}</span>
+            <span class="score-total">${percentage}%</span>
+          </div>
+          <h2 class="result-title">Quiz Completed!</h2>
+          <p class="result-msg">${message}</p>
+          <button class="primary-btn" id="restartBtn">Restart Quiz</button>
+
+          <div class="review-list">
+            ${userAnswers
+              .map(
+                (item, i) => `
+                <div class="review-item ${item.isCorrect ? "ok" : "bad"}">
+                  <strong>Q${i + 1}:</strong> ${escapeHTML(item.question)}<br />
+                  <span>Your answer: <code>${escapeHTML(item.chosen)}</code></span>
+                  ${
+                    item.isCorrect
+                      ? " &mdash; <strong>Correct</strong>"
+                      : `<br /><span>Correct answer: <code>${escapeHTML(item.correct)}</code></span>`
+                  }
+                </div>
+              `
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+
+      document.getElementById("restartBtn").addEventListener("click", () => {
+        currentIndex = 0;
+        score = 0;
+        userAnswers = [];
+        renderQuestion();
+      });
+    }
+
+    renderQuestion();
+  </script>
 </body>
 </html>
